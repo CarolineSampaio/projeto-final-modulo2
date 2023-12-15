@@ -30,7 +30,6 @@
             padding: 30px 0px;
             border-radius: 8px 8px 0px 0px;
             background-color: #424242;
-
         }
 
         .logo {
@@ -123,7 +122,6 @@
         <div class ="bgcolor">
             <img class="logo" src="{{ $message->embed(public_path('gofit_logo_white.svg')) }}"
                 alt="Logo Go!Fit System branco">
-            {{-- <img class="logo" src="{{ asset('gofit_logo_white.svg') }}" alt="Logo Go!Fit System"> --}}
             <p class="welcome-text">Bem-vindo, {{ $userName }}!</p>
         </div>
 
@@ -146,7 +144,6 @@
     </div>
     <div class="footer">
         <img class="logoSecundario" src="{{ $message->embed(public_path('gofit_logo.svg')) }}" alt="Logo Go!Fit System">
-        {{-- <img class="logoSecundario" src="{{ asset('gofit_logo.svg') }}" alt="Logo Go!Fit System"> --}}
         <div>
             <a href="#">Facebook</a>
             <a href="#">Twitter</a>
