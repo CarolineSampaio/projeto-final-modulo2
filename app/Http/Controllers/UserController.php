@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\SendWelcomeToNewUser;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use Symfony\Component\HttpFoundation\Response;
 
 class UserController extends Controller
@@ -22,7 +24,10 @@ class UserController extends Controller
                 'plan_id' => 'integer|required|exists:plans,id',
             ]);
 
-            $user = User::create($data);
+            $user = User::with('plan')->create($data);
+
+            Mail::to($user->email, $user->name)
+                ->send(new SendWelcomeToNewUser($user));
 
             return $this->response('Usuário cadastrado com sucesso.', Response::HTTP_CREATED, $user);
         } catch (\Exception $exception) {
