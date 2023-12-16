@@ -38,5 +38,11 @@ class ExerciseController extends Controller
 
     public function index()
     {
+        $user = auth()->user();
+        $exercises = Exercise::where('user_id', $user->id)
+            ->orderBy('description', 'asc')
+            ->get();
+
+        return $this->response("Exercícios cadastrados por $user->name, listados com sucesso", Response::HTTP_OK, $exercises->makeHidden(['user_id'])->toArray());
     }
 }
