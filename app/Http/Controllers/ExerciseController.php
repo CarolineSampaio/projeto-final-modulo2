@@ -35,4 +35,14 @@ class ExerciseController extends Controller
             return $this->error($exception->getMessage(), Response::HTTP_BAD_REQUEST);
         }
     }
+
+    public function index()
+    {
+        $user = auth()->user();
+        $exercises = Exercise::where('user_id', $user->id)
+            ->orderBy('description', 'asc')
+            ->get();
+
+        return $this->response("Exercícios cadastrados por $user->name, listados com sucesso", Response::HTTP_OK, $exercises->makeHidden(['user_id'])->toArray());
+    }
 }
