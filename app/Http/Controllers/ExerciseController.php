@@ -35,4 +35,8 @@ class ExerciseController extends Controller
             return $this->error($exception->getMessage(), Response::HTTP_BAD_REQUEST);
         }
     }
+
+    public function index()
+    {
+    }
 }
