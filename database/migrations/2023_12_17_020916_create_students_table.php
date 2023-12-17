@@ -25,7 +25,6 @@ return new class extends Migration
             $table->string('neighborhood', 50)->nullable();
             $table->string('city', 50)->nullable();
             $table->string('state', 2)->nullable();
-
             $table->foreign('user_id')->references('id')->on('users');
             $table->timestamps();
         });

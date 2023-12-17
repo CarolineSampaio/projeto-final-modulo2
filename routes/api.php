@@ -6,6 +6,7 @@ use App\Http\Controllers\ExerciseController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Middleware\ValidatePlanLimit;
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('dashboard', [DashboardController::class, 'index']);
@@ -14,7 +15,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('exercises', [ExerciseController::class, 'index']);
     Route::delete('exercises/{id}', [ExerciseController::class, 'destroy']);
 
-    Route::post('students', [StudentController::class, 'store']);
+    Route::post('students', [StudentController::class, 'store'])->middleware(ValidatePlanLimit::class);
 });
 
 Route::post('users', [UserController::class, 'store']);
