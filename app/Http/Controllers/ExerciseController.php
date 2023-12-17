@@ -46,7 +46,26 @@ class ExerciseController extends Controller
         return $this->response("Exercícios cadastrados por $user->name, listados com sucesso", Response::HTTP_OK, $exercises->makeHidden(['user_id'])->toArray());
     }
 
-    public function destroy()
+    public function destroy($id)
     {
+        try {
+            $exercise = Exercise::find($id);
+
+            if (!$exercise) {
+                return $this->error('Exercício não encontrado!', Response::HTTP_NOT_FOUND);
+            }
+
+            $user = auth()->user();
+
+            if ($exercise->user_id != $user->id) {
+                return $this->error('Ação não permitida.', Response::HTTP_FORBIDDEN);
+            }
+
+            $exercise->delete();
+
+            return response('', Response::HTTP_NO_CONTENT);
+        } catch (\Exception $exception) {
+            return $this->error($exception->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
     }
 }
