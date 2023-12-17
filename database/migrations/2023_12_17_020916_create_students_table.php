@@ -13,18 +13,19 @@ return new class extends Migration
     {
         Schema::create('students', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('user_id');
             $table->string('name');
             $table->string('email')->unique();
             $table->date('date_birth');
             $table->string('cpf', 14)->unique();
             $table->string('contact', 20);
-            $table->unsignedBigInteger('user_id');
-            $table->string('city', 50);
-            $table->string('neighborhood', 50);
-            $table->string('number', 30);
-            $table->string('street', 30);
-            $table->string('state', 2);
-            $table->string('cep', 20);
+            $table->string('cep', 20)->nullable();
+            $table->string('street', 30)->nullable();
+            $table->string('number', 30)->nullable();
+            $table->string('neighborhood', 50)->nullable();
+            $table->string('city', 50)->nullable();
+            $table->string('state', 2)->nullable();
+
             $table->foreign('user_id')->references('id')->on('users');
             $table->timestamps();
         });
