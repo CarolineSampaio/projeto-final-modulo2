@@ -45,4 +45,8 @@ class ExerciseController extends Controller
 
         return $this->response("Exercícios cadastrados por $user->name, listados com sucesso", Response::HTTP_OK, $exercises->makeHidden(['user_id'])->toArray());
     }
+
+    public function destroy()
+    {
+    }
 }
