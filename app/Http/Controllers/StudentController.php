@@ -83,4 +83,8 @@ class StudentController extends Controller
             return $this->error($exception->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
+
+    public function update()
+    {
+    }
 }
