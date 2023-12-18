@@ -25,4 +25,6 @@ class Student extends Model
         'state',
         'cep',
     ];
+
+    protected $hidden = ['deleted_at'];
 }
