@@ -37,4 +37,26 @@ class StudentController extends Controller
             return $this->error($exception->getMessage(), Response::HTTP_BAD_REQUEST);
         }
     }
+
+    public function index(Request $request)
+    {
+        $search = $request->get('pesquisa');
+        $user_id = auth()->user()->id;
+
+        $searchStudents = Student::query()
+            ->where('user_id', $user_id)
+            ->orderBy('name', 'asc');
+
+        if ($search) {
+            $searchStudents->where(function ($query) use ($search) {
+                $query->where('name', 'ilike', "%$search%")
+                    ->orWhere('cpf', 'like', "%$search%")
+                    ->orWhere('email', 'ilike', "%$search%");
+            });
+        }
+
+        $students = $searchStudents->get();
+
+        return $this->response('Usuários listados com sucesso.', Response::HTTP_OK, $students->toArray());
+    }
 }
