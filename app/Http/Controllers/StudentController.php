@@ -60,6 +60,9 @@ class StudentController extends Controller
         return $this->response('Usuários listados com sucesso.', Response::HTTP_OK, $students->toArray());
     }
 
+    public function show()
+    {
+    }
 
     public function destroy($id)
     {
