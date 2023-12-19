@@ -38,7 +38,28 @@ class WorkoutController extends Controller
         }
     }
 
-    public function show()
+    public function show($id)
     {
+        try {
+            $workouts = Workout::where('student_id', $id)
+                ->with(['students' => fn ($query) => $query->select('id', 'name')])
+                ->orderby('created_at')
+                ->get()
+                ->groupBy('day')
+                ->sortBy(fn ($grouped, $day) => array_search($day, ['SEGUNDA', 'TERÇA', 'QUARTA', 'QUINTA', 'SEXTA', 'SÁBADO', 'DOMINGO']));
+
+            $student = $workouts->first()->first()->students;
+
+            return $this->response("Treinos listados com sucesso", Response::HTTP_OK, [
+                'student_id' => $student->id,
+                'student_name' => $student->name,
+                'workouts' => $workouts
+            ]);
+
+
+            return $workouts->makeHidden(['students']);
+        } catch (\Exception $exception) {
+            return $this->error($exception->getMessage(), Response::HTTP_BAD_REQUEST);
+        }
     }
 }
