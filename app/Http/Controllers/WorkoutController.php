@@ -63,4 +63,8 @@ class WorkoutController extends Controller
             'workouts' => $sortedWorkouts,
         ]);
     }
+
+    public function exportStudentWorkouts()
+    {
+    }
 }
