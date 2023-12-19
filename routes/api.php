@@ -22,6 +22,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::put('students/{id}', [StudentController::class, 'update']);
 
     Route::post('workouts', [WorkoutController::class, 'store']);
+    Route::get('{id}/workouts', [WorkoutController::class, 'show']);
 });
 
 Route::post('users', [UserController::class, 'store']);
