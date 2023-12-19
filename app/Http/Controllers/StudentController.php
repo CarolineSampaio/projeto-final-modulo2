@@ -60,8 +60,18 @@ class StudentController extends Controller
         return $this->response('Usuários listados com sucesso.', Response::HTTP_OK, $students->toArray());
     }
 
-    public function show()
+    public function show($id)
     {
+        $student = Student::find($id);
+
+        if (!$student) return $this->error('Nenhum aluno encontrado com o ID fornecido.', Response::HTTP_NOT_FOUND);
+
+        $studentArray = collect($student->toArray())
+            ->only(['id', 'name', 'email', 'date_birth', 'cpf', 'contact'])
+            ->merge(['address' => $student->only(['cep', 'street', 'number', 'neighborhood', 'city', 'state'])])
+            ->toArray();
+
+        return $this->response('Estudante listado com sucesso.', Response::HTTP_OK, $studentArray);
     }
 
     public function destroy($id)
