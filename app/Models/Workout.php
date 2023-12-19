@@ -24,4 +24,9 @@ class Workout extends Model
         'created_at',
         'updated_at'
     ];
+
+    public function exercises()
+    {
+        return $this->belongsTo(Exercise::class, 'exercise_id');
+    }
 }

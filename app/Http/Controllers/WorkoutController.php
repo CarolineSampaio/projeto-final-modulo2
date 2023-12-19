@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Student;
 use App\Models\Workout;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -36,5 +37,30 @@ class WorkoutController extends Controller
         } catch (\Exception $exception) {
             return $this->error($exception->getMessage(), Response::HTTP_BAD_REQUEST);
         }
+    }
+
+    public function show($id)
+    {
+        $student = Student::find($id);
+        if (!$student) return $this->error('Nenhum aluno encontrado com o ID fornecido', Response::HTTP_NOT_FOUND);
+
+        $workouts = Workout::where('student_id', $id)
+            ->with('exercises:id,description')
+            ->orderby('created_at')
+            ->get()
+            ->groupBy('day');
+
+        $DaysOfWeek = ['SEGUNDA', 'TERÇA', 'QUARTA', 'QUINTA', 'SEXTA', 'SÁBADO', 'DOMINGO'];
+
+        $sortedWorkouts = array_reduce($DaysOfWeek, function ($result, $day) use ($workouts) {
+            $result[$day] = isset($workouts[$day]) ? $workouts[$day] : [];
+            return $result;
+        });
+
+        return $this->response('Treinos listados com sucesso', Response::HTTP_OK, [
+            'student_id' => $student->id,
+            'student_name' => $student->name,
+            'workouts' => $sortedWorkouts,
+        ]);
     }
 }
