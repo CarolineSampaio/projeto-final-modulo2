@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Student;
 use App\Models\Workout;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -64,7 +65,33 @@ class WorkoutController extends Controller
         ]);
     }
 
-    public function exportStudentWorkouts()
+    public function exportStudentWorkouts(Request $request)
     {
+        $id = $request->get('id_do_estudante');
+
+        $student = Student::find($id);
+        if (!$student) return $this->error('Nenhum aluno encontrado com o ID fornecido', Response::HTTP_NOT_FOUND);
+
+        $workouts = Workout::where('student_id', $id)
+            ->with('exercises:id,description')
+            ->orderby('created_at')
+            ->get()
+            ->groupBy('day');
+
+        $DaysOfWeek = ['SEGUNDA', 'TERÇA', 'QUARTA', 'QUINTA', 'SEXTA', 'SÁBADO', 'DOMINGO'];
+
+        $sortedWorkouts = array_reduce($DaysOfWeek, function ($result, $day) use ($workouts) {
+            $result[$day] = isset($workouts[$day]) ? $workouts[$day] : [];
+            return $result;
+        });
+
+        $name = $student->name;
+
+        $pdf = PDF::loadView('pdfs.studentWorkoutsPdf', [
+            'student_name' => $name,
+            'workouts' => $sortedWorkouts,
+        ]);
+
+        return $pdf->stream('StudentWorkouts.pdf');
     }
 }
