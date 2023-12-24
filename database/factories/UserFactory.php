@@ -30,8 +30,8 @@ class UserFactory extends Factory
             'password' => static::$password ??= Hash::make('password'),
             'remember_token' => Str::random(10),
             'date_birth' => '1990-01-01',
-            'cpf' => '12345678900',
-            'plan_id' => 1,
+            'cpf' => random_int(10000000000, 99999999999),
+            'plan_id' => random_int(1, 3),
         ];
     }
 
