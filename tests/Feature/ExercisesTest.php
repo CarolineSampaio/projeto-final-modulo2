@@ -3,9 +3,9 @@
 namespace Tests\Feature;
 
 use App\Models\Exercise;
+use App\Models\Student;
 use App\Models\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
+use App\Models\Workout;
 use Tests\TestCase;
 
 class ExercisesTest extends TestCase
@@ -81,5 +81,61 @@ class ExercisesTest extends TestCase
         $response->assertStatus(204);
 
         $this->assertDatabaseMissing('exercises', ['id' => $exercise->id]);
+    }
+
+    public function test_user_cannot_delete_exercise_with_invalid_id()
+    {
+        $user = User::factory()->create();
+
+        $response = $this->actingAs($user)->delete('/api/exercises/999');
+
+        $response->assertStatus(404)->assertJson([
+            'message' => 'Exercício não encontrado!',
+            'status' => 404,
+            'errors' => [],
+            'data' => [],
+        ]);
+    }
+
+    public function test_user_cannot_delete_exercise_different_user_id()
+    {
+        $user = User::factory()->create();
+        $exercise = Exercise::factory()->create(['user_id' => $user->id]);
+
+        $user2 = User::factory()->create();
+
+        $response = $this->actingAs($user2)->delete('/api/exercises/' . $exercise->id);
+
+        $response->assertStatus(403)->assertJson([
+            'message' => 'Ação não permitida.',
+            'status' => 403,
+            'errors' => [],
+            'data' => [],
+        ]);
+
+        $this->assertDatabaseHas('exercises', ['id' => $exercise->id]);
+    }
+
+    public function test_user_cannot_delete_exercise_with_workout()
+    {
+        $user = User::factory()->create();
+        $student = Student::factory()->create(['user_id' => $user->id]);
+        $exercise = Exercise::factory()->create(['user_id' => $user->id]);
+
+        Workout::factory()->create([
+            'student_id' => $student->id,
+            'exercise_id' => $exercise->id,
+        ]);
+
+        $response = $this->actingAs($user)->delete('/api/exercises/' . $exercise->id);
+
+        $response->assertStatus(409)->assertJson([
+            'message' => 'Conflito ao realizar exclusão. Este exercício está vinculado a um ou mais treinos.',
+            'status' => 409,
+            'errors' => [],
+            'data' => [],
+        ]);
+
+        $this->assertDatabaseHas('exercises', ['id' => $exercise->id]);
     }
 }
