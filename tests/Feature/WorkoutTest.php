@@ -164,4 +164,21 @@ class WorkoutTest extends TestCase
         );
         $response->assertStatus(200);
     }
+
+    public function teste_user_cannot_export_student_workout_with_invalid_student_id()
+    {
+        $user = User::factory()->create();
+
+        $response = $this->actingAs($user)->get(
+            "/api/students/export?id_do_estudante=999",
+            headers: ['Accept' => 'application/json']
+        );
+
+        $response->assertStatus(404)->assertJson([
+            'message' => 'Nenhum aluno encontrado com o ID fornecido',
+            'status' => 404,
+            'errors' => [],
+            'data' => [],
+        ]);
+    }
 }
