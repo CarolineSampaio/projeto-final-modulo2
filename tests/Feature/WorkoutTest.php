@@ -6,8 +6,9 @@ use App\Models\Exercise;
 use App\Models\Student;
 use App\Models\User;
 use App\Models\Workout;
+use Barryvdh\DomPDF\Facade\PDF;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Http\Response;
 use Tests\TestCase;
 
 class WorkoutTest extends TestCase
@@ -106,7 +107,7 @@ class WorkoutTest extends TestCase
         $student = Student::factory()->create(['user_id' => $user->id]);
         $exercise = Exercise::factory()->create(['user_id' => $user->id]);
 
-        $workout = Workout::factory()->create([
+        Workout::factory()->create([
             'student_id' => $student->id,
             'exercise_id' => $exercise->id,
         ]);
@@ -131,9 +132,36 @@ class WorkoutTest extends TestCase
             'student_id' => $student->id,
             'exercise_id' => $exercise->id,
         ]);
+        $workout->load('exercises:id,description');
+        $expectedObject = [
+            'SEGUNDA' => [$workout->toArray()],
+            'TERÇA' => [],
+            'QUARTA' => [],
+            'QUINTA' => [],
+            'SEXTA' => [],
+            'SÁBADO' => [],
+            'DOMINGO' => [],
+        ];
+        PDF::shouldReceive('loadView')
+            ->withArgs(function ($view, $data) use ($student, $expectedObject) {
+                return (
+                    $view === 'pdfs.studentWorkoutsPdf' &&
+                    $data['student_name'] === $student->name &&
+                    $data['workouts'] == $expectedObject
+                );
+            })
+            ->once()
+            ->andReturnSelf()
+            ->getMock()
+            ->shouldReceive('stream')
+            ->with('StudentWorkouts.pdf')
+            ->once()
+            ->andReturn(new Response());
 
-        $response = $this->actingAs($user)->get("/api/students/export?id_do_estudante={$student->id}", headers: ['Accept' => 'application/json']);
-
+        $response = $this->actingAs($user)->get(
+            "/api/students/export?id_do_estudante={$student->id}",
+            headers: ['Accept' => 'application/json']
+        );
         $response->assertStatus(200);
     }
 }
