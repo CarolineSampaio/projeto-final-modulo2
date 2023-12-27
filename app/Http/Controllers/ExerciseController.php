@@ -20,7 +20,7 @@ class ExerciseController extends Controller
 
         $exerciseExists = Exercise::where('description', $data['description'])
             ->where('user_id', $data['user_id'])
-            ->first();
+            ->exists();
 
         if ($exerciseExists) return $this->error('Conflito ao realizar cadastro. Este exercício já existe em sua lista.', Response::HTTP_CONFLICT);
 
@@ -40,28 +40,15 @@ class ExerciseController extends Controller
 
     public function destroy($id)
     {
-        try {
-            $exercise = Exercise::find($id);
+        $exercise = Exercise::find($id);
+        if (!$exercise) return $this->error('Exercício não encontrado!', Response::HTTP_NOT_FOUND);
 
-            if (!$exercise) {
-                return $this->error('Exercício não encontrado!', Response::HTTP_NOT_FOUND);
-            }
+        $user = auth()->user();
+        if ($exercise->user_id != $user->id) return $this->error('Ação não permitida.', Response::HTTP_FORBIDDEN);
 
-            $user = auth()->user();
+        if ($exercise->workouts()->count() > 0) return $this->error('Conflito ao realizar exclusão. Este exercício está vinculado a um ou mais treinos.', Response::HTTP_CONFLICT);
 
-            if ($exercise->user_id != $user->id) {
-                return $this->error('Ação não permitida.', Response::HTTP_FORBIDDEN);
-            }
-
-            if ($exercise->workouts()->count() > 0) {
-                return $this->error('Conflito ao realizar exclusão. Este exercício está vinculado a um ou mais treinos.', Response::HTTP_CONFLICT);
-            }
-
-            $exercise->delete();
-
-            return response('', Response::HTTP_NO_CONTENT);
-        } catch (\Exception $exception) {
-            return $this->error($exception->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
-        }
+        $exercise->delete();
+        return response('', Response::HTTP_NO_CONTENT);
     }
 }
