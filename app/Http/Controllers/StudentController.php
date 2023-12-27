@@ -132,7 +132,7 @@ class StudentController extends Controller
 
             return response('Aluno atualizado com sucesso.', Response::HTTP_OK);
         } catch (\Exception $exception) {
-            return $this->error($exception->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
+            return $this->error($exception->getMessage(), Response::HTTP_BAD_REQUEST);
         }
     }
 }
