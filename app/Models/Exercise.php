@@ -12,4 +12,9 @@ class Exercise extends Model
     protected $fillable = ['description', 'user_id'];
 
     protected $hidden = ['created_at', 'updated_at'];
+
+    public function workouts()
+    {
+        return $this->hasMany(Workout::class, 'exercise_id', 'id');
+    }
 }

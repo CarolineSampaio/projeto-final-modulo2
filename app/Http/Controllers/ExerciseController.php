@@ -61,6 +61,10 @@ class ExerciseController extends Controller
                 return $this->error('Ação não permitida.', Response::HTTP_FORBIDDEN);
             }
 
+            if ($exercise->workouts()->count() > 0) {
+                return $this->error('Conflito ao realizar exclusão. Este exercício está vinculado a um ou mais treinos.', Response::HTTP_CONFLICT);
+            }
+
             $exercise->delete();
 
             return response('', Response::HTTP_NO_CONTENT);
