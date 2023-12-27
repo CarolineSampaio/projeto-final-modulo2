@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             $table->date('date_birth');
-            $table->string('cpf', 14)->unique();
+            $table->string('cpf', 11)->unique();
             $table->unsignedBigInteger('plan_id');
             $table->foreign('plan_id')->references('id')->on('plans');
         });
