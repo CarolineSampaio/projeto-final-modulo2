@@ -76,7 +76,7 @@ class WorkoutController extends Controller
             ->with('exercises:id,description')
             ->orderby('created_at')
             ->get()
-            ->groupBy('day');
+            ->groupBy('day')->toArray();
 
         $DaysOfWeek = ['SEGUNDA', 'TERÇA', 'QUARTA', 'QUINTA', 'SEXTA', 'SÁBADO', 'DOMINGO'];
 
