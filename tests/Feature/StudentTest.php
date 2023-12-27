@@ -4,14 +4,10 @@ namespace Tests\Feature;
 
 use App\Models\Student;
 use App\Models\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class StudentTest extends TestCase
 {
-    use RefreshDatabase;
-
     public function test_user_can_create_student()
     {
         $user = User::factory()->create();
@@ -115,10 +111,10 @@ class StudentTest extends TestCase
         ]);
     }
 
-    public function teste_user_can_create_student_plan_OURO_ilimited()
+    public function test_user_can_create_student_plan_OURO_ilimited()
     {
         $user = User::factory()->create(['plan_id' => 3]);
-        $students = Student::factory()->count(21)->create(['user_id' => $user->id]);
+        Student::factory()->count(21)->create(['user_id' => $user->id]);
 
         $response = $this->actingAs($user)->post('/api/students', [
             'name' => 'Test User',
@@ -193,7 +189,7 @@ class StudentTest extends TestCase
 
         $response = $this->actingAs($user)->put("/api/students/{$student->id}", $newData);
 
-        $response->assertStatus(200);
+        $response->assertStatus(200)->assertSeeText('Aluno atualizado com sucesso.');
 
         $updatedStudent = Student::find($student->id);
         $this->assertEquals('Updated Name', $updatedStudent->name);

@@ -7,20 +7,16 @@ use App\Models\Student;
 use App\Models\User;
 use App\Models\Workout;
 use Barryvdh\DomPDF\Facade\PDF;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Response;
 use Tests\TestCase;
 
 class WorkoutTest extends TestCase
 {
-    use RefreshDatabase;
-
     public function test_user_can_create_workout()
     {
         $user = User::factory()->create();
         $student = Student::factory()->create(['user_id' => $user->id]);
         $exercise = Exercise::factory()->create(['user_id' => $user->id]);
-
 
         $data = [
             'student_id' => $student->id,
@@ -31,7 +27,6 @@ class WorkoutTest extends TestCase
             'day' => 'SEGUNDA',
             'observations' => 'Observações do treino',
             'time' => 120,
-            'id' => 1,
         ];
 
         $response = $this->actingAs($user)->post('/api/workouts', $data, headers: ['Accept' => 'application/json']);
@@ -122,7 +117,7 @@ class WorkoutTest extends TestCase
         ]);
     }
 
-    public function teste_user_can_export_student_workout()
+    public function test_user_can_export_student_workout()
     {
         $user = User::factory()->create();
         $student = Student::factory()->create(['user_id' => $user->id]);
@@ -162,10 +157,11 @@ class WorkoutTest extends TestCase
             "/api/students/export?id_do_estudante={$student->id}",
             headers: ['Accept' => 'application/json']
         );
+
         $response->assertStatus(200);
     }
 
-    public function teste_user_cannot_export_student_workout_with_invalid_student_id()
+    public function test_user_cannot_export_student_workout_with_invalid_student_id()
     {
         $user = User::factory()->create();
 

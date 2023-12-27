@@ -4,15 +4,11 @@ namespace Tests\Feature;
 
 use App\Mail\SendWelcomeToNewUser;
 use App\Models\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-
 use Illuminate\Support\Facades\Mail;
 use Tests\TestCase;
 
 class UserTest extends TestCase
 {
-    use RefreshDatabase;
-
     public function test_user_can_login_with_correct_credentials()
     {
         $user = User::factory()->create([

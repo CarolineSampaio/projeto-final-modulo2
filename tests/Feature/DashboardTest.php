@@ -2,15 +2,12 @@
 
 namespace Tests\Feature;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 use App\Models\User;
 
 class DashboardTest extends TestCase
 {
-    use RefreshDatabase;
-
-    public function test_dashboard(): void
+    public function test_list_dashboard(): void
     {
         $userPlanMapping = [
             1 => ['name' => 'BRONZE', 'remaining_students' => 10],

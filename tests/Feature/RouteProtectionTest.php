@@ -2,29 +2,25 @@
 
 namespace Tests\Feature;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class RouteProtectionTest extends TestCase
 {
-    use RefreshDatabase;
-
     public function test_unauthenticated_user_cannot_access_protected_routes()
     {
         $protectedRoutes = [
             'dashboard' => 'get',
             'exercises' => 'post',
-            'exercises/1' => 'get', // assuming 1 is a valid exercise ID
-            'exercises/1' => 'put', // assuming 1 is a valid exercise ID
-            'exercises/1' => 'delete', // assuming 1 is a valid exercise ID
+            'exercises/1' => 'get',
+            'exercises/1' => 'put',
+            'exercises/1' => 'delete',
             'workouts' => 'post',
-            '1/workouts' => 'get', // assuming 1 is a valid user ID
+            '1/workouts' => 'get',
             'students' => 'get',
             'students' => 'post',
-            'students/1' => 'get', // assuming 1 is a valid student ID
-            'students/1' => 'put', // assuming 1 is a valid student ID
-            'students/1' => 'delete', // assuming 1 is a valid student ID
+            'students/1' => 'get',
+            'students/1' => 'put',
+            'students/1' => 'delete',
         ];
 
         foreach ($protectedRoutes as $route => $method) {
