@@ -10,31 +10,25 @@ class AuthController extends Controller
 {
     public function store(Request $request)
     {
-        try {
-            $credentials = $request->only(['email', 'password']);
+        $credentials = $request->only(['email', 'password']);
 
-            $request->validate([
-                'email' => 'string|required',
-                'password' => 'string|required'
-            ]);
+        $request->validate([
+            'email' => 'string|required',
+            'password' => 'string|required'
+        ]);
 
-            $authenticated = Auth::attempt($credentials);
+        $authenticated = Auth::attempt($credentials);
 
-            if (!$authenticated) {
-                return $this->error('Credenciais inválidas', Response::HTTP_UNAUTHORIZED);
-            }
+        if (!$authenticated) return $this->error('Credenciais inválidas', Response::HTTP_UNAUTHORIZED);
 
-            $user = $request->user();
-            $user->tokens()->delete();
-            $token = $user->createToken('token');
+        $user = $request->user();
+        $user->tokens()->delete();
+        $token = $user->createToken('token');
 
-            return $this->response('Autenticação realizada com sucesso', Response::HTTP_OK, [
-                'token' => $token->plainTextToken,
-                'name' =>  $user->name,
-            ]);
-        } catch (\Exception $exception) {
-            return $this->error($exception->getMessage(), Response::HTTP_BAD_REQUEST);
-        }
+        return $this->response('Autenticação realizada com sucesso', Response::HTTP_OK, [
+            'token' => $token->plainTextToken,
+            'name' =>  $user->name,
+        ]);
     }
 
     public function logout(Request $request)

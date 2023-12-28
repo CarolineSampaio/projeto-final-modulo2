@@ -64,6 +64,35 @@ class WorkoutTest extends TestCase
         ]);
     }
 
+    public function test_user_cannot_create_workout_same_day_and_student()
+    {
+        $user = User::factory()->create();
+        $student = Student::factory()->create(['user_id' => $user->id]);
+        $exercise = Exercise::factory()->create(['user_id' => $user->id]);
+
+        $data = [
+            'student_id' => $student->id,
+            'exercise_id' => $exercise->id,
+            'repetitions' => 10,
+            'weight' => 50.5,
+            'break_time' => 60,
+            'day' => 'SEGUNDA',
+            'observations' => 'Observações do treino',
+            'time' => 120,
+        ];
+
+        $this->actingAs($user)->post('/api/workouts', $data, headers: ['Accept' => 'application/json']);
+
+        $response = $this->actingAs($user)->post('/api/workouts', $data, headers: ['Accept' => 'application/json']);
+
+        $response->assertStatus(409)->assertJson([
+            'message' => 'Já existe um treino com esse exercício cadastrado para esse aluno neste dia.',
+            'status' => 409,
+            'errors' => [],
+            'data' => [],
+        ]);
+    }
+
     public function test_user_can_list_a_workout()
     {
         $user = User::factory()->create();
@@ -75,7 +104,7 @@ class WorkoutTest extends TestCase
             'exercise_id' => $exercise->id,
         ]);
 
-        $response = $this->actingAs($user)->get("/api/$student->id/workouts", headers: ['Accept' => 'application/json']);
+        $response = $this->actingAs($user)->get("/api/students/$student->id/workouts", headers: ['Accept' => 'application/json']);
 
         $response->assertStatus(200)->assertJson([
             'message' => 'Treinos listados com sucesso',
@@ -107,7 +136,7 @@ class WorkoutTest extends TestCase
             'exercise_id' => $exercise->id,
         ]);
 
-        $response = $this->actingAs($user)->get("/api/999/workouts", headers: ['Accept' => 'application/json']);
+        $response = $this->actingAs($user)->get("/api/students/999/workouts", headers: ['Accept' => 'application/json']);
 
         $response->assertStatus(404)->assertJson([
             'message' => 'Nenhum aluno encontrado com o ID fornecido',

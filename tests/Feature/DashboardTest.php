@@ -23,7 +23,7 @@ class DashboardTest extends TestCase
                 'data' => [
                     'registered_students' => 0,
                     'registered_exercises' => 0,
-                    'current_user_plan' => 'Plano ' . $plan['name'],
+                    'current_user_plan' => 'Plano ' . ucfirst(strtolower($plan['name'])),
                     'remaining_students' => $plan['remaining_students'],
                 ]
             ]);
