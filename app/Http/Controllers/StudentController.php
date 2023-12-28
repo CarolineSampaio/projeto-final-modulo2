@@ -30,7 +30,7 @@ class StudentController extends Controller
         $data['user_id'] = $user_id;
 
         $student = Student::create($data);
-        return $this->response('Usuário cadastrado com sucesso.', Response::HTTP_CREATED, $student);
+        return $this->response('Estudante cadastrado com sucesso.', Response::HTTP_CREATED, $student);
     }
 
     public function index(Request $request)
@@ -52,7 +52,7 @@ class StudentController extends Controller
 
         $students = $searchStudents->get();
 
-        return $this->response('Usuários listados com sucesso.', Response::HTTP_OK, $students->toArray());
+        return $this->response('Estudantes listados com sucesso.', Response::HTTP_OK, $students->makehidden(['user_id'])->toArray());
     }
 
     public function show($id)

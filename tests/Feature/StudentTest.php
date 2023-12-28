@@ -26,7 +26,7 @@ class StudentTest extends TestCase
         ]);
 
         $response->assertStatus(201)->assertJson([
-            'message' => 'Usuário cadastrado com sucesso.',
+            'message' => 'Estudante cadastrado com sucesso.',
             'status' => 201,
             'data' => [
                 'name' => 'Test User',
@@ -125,7 +125,7 @@ class StudentTest extends TestCase
         ]);
 
         $response->assertStatus(201)->assertJson([
-            'message' => 'Usuário cadastrado com sucesso.',
+            'message' => 'Estudante cadastrado com sucesso.',
             'status' => 201,
         ]);
     }
@@ -142,9 +142,9 @@ class StudentTest extends TestCase
 
         $response->assertStatus(200)->assertJson(
             [
-                'message' => 'Usuários listados com sucesso.',
+                'message' => 'Estudantes listados com sucesso.',
                 'status' => 200,
-                'data' => [$student->toArray()]
+                'data' => [$student->makehidden(['user_id'])->toArray()]
             ],
         );
     }
