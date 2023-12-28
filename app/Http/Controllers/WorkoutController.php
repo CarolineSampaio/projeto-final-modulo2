@@ -41,18 +41,7 @@ class WorkoutController extends Controller
         $student = Student::find($id);
         if (!$student) return $this->error('Nenhum aluno encontrado com o ID fornecido', Response::HTTP_NOT_FOUND);
 
-        $workouts = Workout::where('student_id', $id)
-            ->with('exercises:id,description')
-            ->orderby('created_at')
-            ->get()
-            ->groupBy('day');
-
-        $DaysOfWeek = ['SEGUNDA', 'TERÇA', 'QUARTA', 'QUINTA', 'SEXTA', 'SÁBADO', 'DOMINGO'];
-
-        $sortedWorkouts = array_reduce($DaysOfWeek, function ($result, $day) use ($workouts) {
-            $result[$day] = isset($workouts[$day]) ? $workouts[$day] : [];
-            return $result;
-        });
+        $sortedWorkouts = $this->getWorkouts($student->id);
 
         return $this->response('Treinos listados com sucesso', Response::HTTP_OK, [
             'student_id' => $student->id,
@@ -64,11 +53,24 @@ class WorkoutController extends Controller
     public function exportStudentWorkouts(Request $request)
     {
         $id = $request->get('id_do_estudante');
-
         $student = Student::find($id);
+
         if (!$student) return $this->error('Nenhum aluno encontrado com o ID fornecido', Response::HTTP_NOT_FOUND);
 
-        $workouts = Workout::where('student_id', $id)
+        $sortedWorkouts = $this->getWorkouts($student->id);
+        $name = $student->name;
+
+        $pdf = PDF::loadView('pdfs.studentWorkoutsPdf', [
+            'student_name' => $name,
+            'workouts' => $sortedWorkouts,
+        ]);
+
+        return $pdf->stream('StudentWorkouts.pdf');
+    }
+
+    private function getWorkouts($student_id)
+    {
+        $workouts = Workout::where('student_id', $student_id)
             ->with('exercises:id,description')
             ->orderby('created_at')
             ->get()
@@ -81,13 +83,6 @@ class WorkoutController extends Controller
             return $result;
         });
 
-        $name = $student->name;
-
-        $pdf = PDF::loadView('pdfs.studentWorkoutsPdf', [
-            'student_name' => $name,
-            'workouts' => $sortedWorkouts,
-        ]);
-
-        return $pdf->stream('StudentWorkouts.pdf');
+        return $sortedWorkouts;
     }
 }
