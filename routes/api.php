@@ -17,7 +17,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::delete('exercises/{id}', [ExerciseController::class, 'destroy']);
 
     Route::post('workouts', [WorkoutController::class, 'store']);
-    Route::get('{id}/workouts', [WorkoutController::class, 'show']);
+    Route::get('students/{id}/workouts', [WorkoutController::class, 'show']);
     Route::get('students/export', [WorkoutController::class, 'exportStudentWorkouts']);
 
     Route::post('students', [StudentController::class, 'store'])->middleware(ValidatePlanLimit::class);

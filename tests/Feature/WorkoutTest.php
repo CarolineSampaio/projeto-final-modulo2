@@ -104,7 +104,7 @@ class WorkoutTest extends TestCase
             'exercise_id' => $exercise->id,
         ]);
 
-        $response = $this->actingAs($user)->get("/api/$student->id/workouts", headers: ['Accept' => 'application/json']);
+        $response = $this->actingAs($user)->get("/api/students/$student->id/workouts", headers: ['Accept' => 'application/json']);
 
         $response->assertStatus(200)->assertJson([
             'message' => 'Treinos listados com sucesso',
@@ -136,7 +136,7 @@ class WorkoutTest extends TestCase
             'exercise_id' => $exercise->id,
         ]);
 
-        $response = $this->actingAs($user)->get("/api/999/workouts", headers: ['Accept' => 'application/json']);
+        $response = $this->actingAs($user)->get("/api/students/999/workouts", headers: ['Accept' => 'application/json']);
 
         $response->assertStatus(404)->assertJson([
             'message' => 'Nenhum aluno encontrado com o ID fornecido',
