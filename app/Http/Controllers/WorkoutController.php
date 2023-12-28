@@ -12,32 +12,28 @@ class WorkoutController extends Controller
 {
     public function store(Request $request)
     {
-        try {
-            $data = $request->all();
+        $data = $request->all();
 
-            $request->validate([
-                'student_id' => 'required|exists:students,id',
-                'exercise_id' => 'required|exists:exercises,id',
-                'repetitions' => 'required|integer',
-                'weight' => 'required|numeric',
-                'break_time' => 'required|integer',
-                'day' => 'required|in:SEGUNDA,TERÇA,QUARTA,QUINTA,SEXTA,SÁBADO,DOMINGO',
-                'observations' => 'string',
-                'time' => 'required|integer',
-            ]);
+        $request->validate([
+            'student_id' => 'required|exists:students,id',
+            'exercise_id' => 'required|exists:exercises,id',
+            'repetitions' => 'required|integer',
+            'weight' => 'required|numeric',
+            'break_time' => 'required|integer',
+            'day' => 'required|in:SEGUNDA,TERÇA,QUARTA,QUINTA,SEXTA,SÁBADO,DOMINGO',
+            'observations' => 'string',
+            'time' => 'required|integer',
+        ]);
 
-            $workoutExists = Workout::where('student_id', $data['student_id'])
-                ->where('day', $data['day'])
-                ->first();
+        $workoutExists = Workout::where('student_id', $data['student_id'])
+            ->where('day', $data['day'])
+            ->where('exercise_id', $data['exercise_id'])
+            ->exists();
 
-            if ($workoutExists) return $this->error('Já existe um treino cadastrado para esse aluno neste dia.', Response::HTTP_CONFLICT);
+        if ($workoutExists) return $this->error('Já existe um treino com esse exercício cadastrado para esse aluno neste dia.', Response::HTTP_CONFLICT);
 
-            $workout = Workout::create($data);
-
-            return $this->response('Treino cadastrado com sucesso.', Response::HTTP_CREATED, $workout);
-        } catch (\Exception $exception) {
-            return $this->error($exception->getMessage(), Response::HTTP_BAD_REQUEST);
-        }
+        $workout = Workout::create($data);
+        return $this->response('Treino cadastrado com sucesso.', Response::HTTP_CREATED, $workout);
     }
 
     public function show($id)
