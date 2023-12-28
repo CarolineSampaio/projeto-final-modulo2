@@ -83,40 +83,29 @@ class StudentController extends Controller
 
     public function update($id, Request $request)
     {
-        try {
-            $data = $request->all();
+        $data = $request->all();
 
-            $request->validate([
-                'name' => 'string|max:255',
-                'email' => 'string|email|max:255|unique:students',
-                'date_birth' => 'string|date_format:Y-m-d',
-                'cpf' => 'string|max:14|unique:students',
-                'contact' => 'string|max:20',
-                'cep' => 'string|max:20',
-                'street' => 'string|max:30',
-                'number' => 'string|max:30',
-                'neighborhood' => 'string|max:50',
-                'city' => 'string|max:50',
-                'state' => 'string|max:2',
-            ]);
+        $request->validate([
+            'name' => 'string|max:255',
+            'email' => 'string|email|max:255|unique:students',
+            'date_birth' => 'string|date_format:Y-m-d',
+            'cpf' => 'string|size:11|regex:/^\d{11}$/|unique:students',
+            'contact' => 'string|max:20',
+            'cep' => 'string|max:20',
+            'street' => 'string|max:30',
+            'number' => 'string|max:30',
+            'neighborhood' => 'string|max:50',
+            'city' => 'string|max:50',
+            'state' => 'string|max:2',
+        ]);
 
-            $student = Student::find($id);
+        $student = Student::find($id);
+        if (!$student) return $this->error('Aluno não encontrado!', Response::HTTP_NOT_FOUND);
 
-            if (!$student) {
-                return $this->error('Aluno não encontrado!', Response::HTTP_NOT_FOUND);
-            }
+        $user = auth()->user();
+        if ($student->user_id != $user->id) return $this->error('Ação não permitida.', Response::HTTP_FORBIDDEN);
 
-            $user = auth()->user();
-
-            if ($student->user_id != $user->id) {
-                return $this->error('Ação não permitida.', Response::HTTP_FORBIDDEN);
-            }
-
-            $student->update($data);
-
-            return response('Aluno atualizado com sucesso.', Response::HTTP_OK);
-        } catch (\Exception $exception) {
-            return $this->error($exception->getMessage(), Response::HTTP_BAD_REQUEST);
-        }
+        $student->update($data);
+        return response('Aluno atualizado com sucesso.', Response::HTTP_OK);
     }
 }
