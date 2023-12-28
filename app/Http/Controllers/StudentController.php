@@ -71,25 +71,14 @@ class StudentController extends Controller
 
     public function destroy($id)
     {
-        try {
-            $student = Student::find($id);
+        $student = Student::find($id);
+        if (!$student) return $this->error('Aluno não encontrado!', Response::HTTP_NOT_FOUND);
 
-            if (!$student) {
-                return $this->error('Aluno não encontrado!', Response::HTTP_NOT_FOUND);
-            }
+        $user = auth()->user();
+        if ($student->user_id != $user->id) return $this->error('Ação não permitida.', Response::HTTP_FORBIDDEN);
 
-            $user = auth()->user();
-
-            if ($student->user_id != $user->id) {
-                return $this->error('Ação não permitida.', Response::HTTP_FORBIDDEN);
-            }
-
-            $student->delete();
-
-            return response('', Response::HTTP_NO_CONTENT);
-        } catch (\Exception $exception) {
-            return $this->error($exception->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
-        }
+        $student->delete();
+        return response('', Response::HTTP_NO_CONTENT);
     }
 
     public function update($id, Request $request)
