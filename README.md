@@ -109,14 +109,14 @@ php artisan serve
 
 `POST /api/users`
 
-| Parâmetro    | Tipo     | Descrição                                                          |
-| ------------ | -------- | ------------------------------------------------------------------ |
-| `name`       | `string` | **Máximo de 255 caracteres e obrigatório**.                        |
-| `email`      | `string` | **Máximo de 255 caracteres, obrigatório e único**.                 |
-| `date_birth` | `date`   | **Máximo de 255 caracteres, obrigatório e no formato yyyy-mm-dd**. |
-| `cpf`        | `string` | **Máximo de 11 caracteres, obrigatório, válido e único**.          |
-| `password`   | `string` | **Máximo de 255 caracteres e obrigatório**.                        |
-| `plan_id`    | `int`    | **Obrigatório**. Coluna chave estrangeira da tabela `plans`.       |
+| Parâmetro    | Tipo     | Descrição                                                                  |
+| ------------ | -------- | -------------------------------------------------------------------------- |
+| `name`       | `string` | **Máximo de 255 caracteres e obrigatório**.                                |
+| `email`      | `string` | **Máximo de 255 caracteres, obrigatório, válido e único**.                 |
+| `date_birth` | `date`   | **Máximo de 255 caracteres, obrigatório, válido e no formato yyyy-mm-dd**. |
+| `cpf`        | `string` | **Máximo de 11 caracteres, obrigatório, válido e único**.                  |
+| `password`   | `string` | **Máximo de 255 caracteres e obrigatório**.                                |
+| `plan_id`    | `int`    | **Obrigatório**. Coluna chave estrangeira da tabela `plans`.               |
 
 #### Exemplo de Request
 
@@ -153,7 +153,7 @@ Response
         "plan_id": 2,
         "updated_at": "2023-12-29T04:12:00.000000Z",
         "created_at": "2023-12-29T04:12:00.000000Z",
-        "id": 5,
+        "id": 1,
         "plan": {
             "id": 2,
             "description": "PRATA",
@@ -375,7 +375,7 @@ Auth: Bearer token
 Response
 
 ```json
-Status: 204 No Content
+Status 204 No Content
 ```
 
 | Response Status | Descrição                    |
@@ -386,6 +386,314 @@ Status: 204 No Content
 | `404`           | Exercício não encontrado     |
 | `409`           | Conflito por existir treinos |
 | `500`           | Erro interno no servidor     |
+
+##
+
+### Endpoints - Rotas Estudante
+
+#### S07 - Cadastro de estudante
+
+`POST /api/students`
+
+| Parâmetro      | Tipo     | Descrição                                                                  |
+| -------------- | -------- | -------------------------------------------------------------------------- |
+| `name`         | `string` | **Máximo de 255 caracteres e obrigatório**.                                |
+| `email`        | `string` | **Máximo de 255 caracteres, obrigatório, válido e único**.                 |
+| `date_birth`   | `string` | **Máximo de 255 caracteres, obrigatório, válido e no formato yyyy-mm-dd**. |
+| `cpf`          | `string` | **Máximo de 11 caracteres, obrigatório, válido e único**.                  |
+| `contact`      | `string` | **Máximo de 20 caracteres**.                                               |
+| `cep`          | `string` | **Máximo de 20 caracteres**.                                               |
+| `street`       | `string` | **Máximo de 30 caracteres**.                                               |
+| `number`       | `string` | **Máximo de 30 caracteres**.                                               |
+| `neighborhood` | `string` | **Máximo de 50 caracteres**.                                               |
+| `city`         | `string` | **Máximo de 50 caracteres**.                                               |
+| `state`        | `string` | **Máximo de 2 caracteres**.                                                |
+
+#### Exemplo de Request
+
+Headers
+
+```http
+Accept: application/json
+Auth: Bearer token
+```
+
+Request Body
+
+```json
+{
+    "name": "John Doe",
+    "email": "john.doe@example.com",
+    "date_birth": "1990-01-15",
+    "cpf": "12345678909",
+    "contact": "1198765-4321",
+    "cep": "01234567",
+    "street": "Avenida Paulista",
+    "state": "SP",
+    "neighborhood": "Bela Vista",
+    "city": "São Paulo",
+    "number": "123"
+}
+```
+
+Response
+
+```json
+{
+    "message": "Estudante cadastrado com sucesso.",
+    "status": 201,
+    "data": {
+        "name": "John Doe",
+        "email": "john.doe@example.com",
+        "date_birth": "1990-01-15",
+        "cpf": "12345678909",
+        "contact": "1198765-4321",
+        "cep": "01234567",
+        "street": "Avenida Paulista",
+        "state": "SP",
+        "neighborhood": "Bela Vista",
+        "city": "São Paulo",
+        "number": "123",
+        "updated_at": "2023-12-29T16:35:38.000000Z",
+        "created_at": "2023-12-29T16:35:38.000000Z",
+        "id": 1
+    }
+}
+```
+
+| Response Status | Descrição                |
+| :-------------- | :----------------------- |
+| `201`           | Criado com sucesso       |
+| `400`           | Dados inválidos          |
+| `401`           | Não autenticado          |
+| `403`           | Limite excedido          |
+| `500`           | Erro interno no servidor |
+
+##
+
+#### S08 - Listagem de estudantes
+
+`GET /api/students`
+
+Opcionalmente, pode ser adicionado ao patch um query params, de modo a realizar uma pesquisa geral com base no nome, cpf ou email.
+
+Exemplo:
+
+`/api/students?pesquisa_geral=john`
+
+| Parâmetro        | Tipo     | Descrição             |
+| :--------------- | :------- | :-------------------- |
+| `pesquisa_geral` | `string` | `nome, cpf ou e-mail` |
+
+#### Exemplo de Request
+
+Headers
+
+```http
+Accept: application/json
+Auth: Bearer token
+```
+
+Response
+
+```json
+{
+    "message": "Estudantes listados com sucesso.",
+    "status": 200,
+    "data": [
+        {
+            "id": 1,
+            "name": "John Doe",
+            "email": "john.doe@example.com",
+            "date_birth": "1990-01-15",
+            "cpf": "12345678909",
+            "contact": "1198765-4321",
+            "cep": "01234567",
+            "street": "Avenida Paulista",
+            "number": "123",
+            "neighborhood": "Bela Vista",
+            "city": "São Paulo",
+            "state": "SP",
+            "created_at": "2023-12-29T16:35:38.000000Z",
+            "updated_at": "2023-12-29T16:35:38.000000Z"
+        }
+    ]
+}
+```
+
+| Response Status | Descrição                |
+| :-------------- | :----------------------- |
+| `200`           | Ok - Sucesso             |
+| `401`           | Não autenticado          |
+| `500`           | Erro interno no servidor |
+
+##
+
+#### S09 - Deleção de estudante (Soft Delete)
+
+`DELETE /api/students/:id`
+
+| Parâmetro | Tipo  | Descrição                                                   |
+| --------- | ----- | ----------------------------------------------------------- |
+| `id`      | `int` | **Obrigatório e chave primária válida na tabela students**. |
+
+#### Exemplo de Request
+
+```http
+/api/students/1
+```
+
+Headers
+
+```http
+Accept: application/json
+Auth: Bearer token
+```
+
+Response
+
+```json
+Status 204 No Content
+```
+
+| Response Status | Descrição                |
+| :-------------- | :----------------------- |
+| `204`           | Sem conteúdo (sucesso)   |
+| `401`           | Não autenticado          |
+| `403`           | Ação não permitida       |
+| `404`           | Estudante não encontrado |
+| `500`           | Erro interno no servidor |
+
+##
+
+#### S10 - Atualização de estudante
+
+`PUT /api/students/:id`
+
+| Parâmetro      | Tipo     | Descrição                                                     |
+| -------------- | -------- | ------------------------------------------------------------- |
+| `name`         | `string` | **Máximo de 255 caracteres**.                                 |
+| `email`        | `string` | **Máximo de 255 caracteres, válido e único**.                 |
+| `date_birth`   | `string` | **Máximo de 255 caracteres, válido e no formato yyyy-mm-dd**. |
+| `cpf`          | `string` | **Máximo de 11 caracteres, válido e único**.                  |
+| `contact`      | `string` | **Máximo de 20 caracteres**.                                  |
+| `cep`          | `string` | **Máximo de 20 caracteres**.                                  |
+| `street`       | `string` | **Máximo de 30 caracteres**.                                  |
+| `number`       | `string` | **Máximo de 30 caracteres**.                                  |
+| `neighborhood` | `string` | **Máximo de 50 caracteres**.                                  |
+| `city`         | `string` | **Máximo de 50 caracteres**.                                  |
+| `state`        | `string` | **Máximo de 2 caracteres**.                                   |
+
+#### Exemplo de Request
+
+```http
+/api/students/1
+```
+
+Headers
+
+```http
+Accept: application/json
+Auth: Bearer token
+```
+
+Request Body
+
+```json
+{
+    "email": "john_doe@example.com",
+    "date_birth": "1990-02-15"
+}
+```
+
+Response
+
+```json
+{
+    "message": "Aluno atualizado com sucesso.",
+    "status": 200,
+    "data": {
+        "id": 1,
+        "name": "John Doe",
+        "email": "john_doe@example.com",
+        "date_birth": "1990-02-15",
+        "cpf": "12345678909",
+        "contact": "1198765-4321",
+        "cep": "01234567",
+        "street": "Avenida Paulista",
+        "number": "123",
+        "neighborhood": "Bela Vista",
+        "city": "São Paulo",
+        "state": "SP",
+        "created_at": "2023-12-29T16:35:38.000000Z",
+        "updated_at": "2023-12-29T18:03:16.000000Z"
+    }
+}
+```
+
+| Response Status | Descrição                |
+| :-------------- | :----------------------- |
+| `200`           | Atualizado com sucesso   |
+| `400`           | Dados inválidos          |
+| `401`           | Não autenticado          |
+| `403`           | Ação não permitida       |
+| `404`           | Estudante não encontrado |
+| `500`           | Erro interno no servidor |
+
+##
+
+#### S13 - Listagem de um estudante
+
+`GET /api/students/:id`
+
+| Parâmetro | Tipo  | Descrição                                                   |
+| --------- | ----- | ----------------------------------------------------------- |
+| `id`      | `int` | **Obrigatório e chave primária válida na tabela students**. |
+
+#### Exemplo de Request
+
+```http
+/api/students/1
+```
+
+Headers
+
+```http
+Accept: application/json
+Auth: Bearer token
+```
+
+Response
+
+```json
+{
+    "message": "Estudante listado com sucesso.",
+    "status": 200,
+    "data": {
+        "id": 1,
+        "name": "John Doe",
+        "email": "john_doe@example.com",
+        "date_birth": "1990-02-15",
+        "cpf": "12345678909",
+        "contact": "1198765-4321",
+        "address": {
+            "cep": "01234567",
+            "street": "Avenida Paulista",
+            "number": "123",
+            "neighborhood": "Bela Vista",
+            "city": "São Paulo",
+            "state": "SP"
+        }
+    }
+}
+```
+
+| Response Status | Descrição                |
+| :-------------- | :----------------------- |
+| `200`           | Ok - Sucesso             |
+| `401`           | Não autenticado          |
+| `404`           | Estudante não encontrado |
+| `500`           | Erro interno no servidor |
 
 ##
 
