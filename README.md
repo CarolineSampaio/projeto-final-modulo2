@@ -105,7 +105,9 @@ php artisan serve
 
 ### Endpoints - Rotas Usuário
 
-#### S01 - Cadatro de usuário
+#### S01 - Cadastro de usuário
+
+Rota pública destinada ao cadastro de um novo usuário.
 
 `POST /api/users`
 
@@ -175,6 +177,8 @@ Response
 
 #### S02 - Login do usuário
 
+Rota pública destinada ao serviço de login via e-mail e senha.
+
 `POST /api/login`
 
 | Parâmetro  | Tipo     | Descrição        |
@@ -223,6 +227,8 @@ Response
 
 #### S03 - Dashboard
 
+Rota privada destinada listagem de dados do usuário autenticado para a o dashboard.
+
 `GET /api/dashboard`
 
 #### Exemplo de Request
@@ -260,6 +266,8 @@ Response
 ### Endpoints - Rotas Exercícios
 
 #### S04 - Cadastro de exercícios
+
+Rota privada destinada ao cadastro de exercícios.
 
 `POST /api/exercises`
 
@@ -309,6 +317,8 @@ Response
 
 #### S05 - Listagem de exercícios
 
+Rota privada destinada a listagem de exercícios cadastrados pelo usuário autenticado.
+
 `GET /api/exercises`
 
 #### Exemplo de Request
@@ -351,7 +361,9 @@ Response
 
 ##
 
-#### S06 - Deleção de exercícios
+#### S06 - Deleção de um exercício
+
+Rota privada destinada a deleção de um exercício com base no id, que necessariamente deve ter sido criado pelo usuário autenticado.
 
 `DELETE /api/exercises/:id`
 
@@ -392,6 +404,8 @@ Status 204 No Content
 ### Endpoints - Rotas Estudante
 
 #### S07 - Cadastro de estudante
+
+Rota privada destinada ao cadastro de um estudante. O sucesso da requisição está condicionado ao limite do plano escolhido no cadastro em comparação a quantidade de estudantes já cadastrados no sistema, essa validação é feita através de um middleware.
 
 `POST /api/students`
 
@@ -473,9 +487,11 @@ Response
 
 #### S08 - Listagem de estudantes
 
+Rota privada destinada a listagem de todos os estudantes cadastrados pelo usuário autenticado.
+
 `GET /api/students`
 
-Opcionalmente, pode ser adicionado ao patch um query params, de modo a realizar uma pesquisa geral com base no nome, cpf ou email.
+Opcionalmente, pode ser adicionado ao patch um query params, de modo a realizar uma pesquisa geral com base no nome, cpf ou e-mail.
 
 Exemplo:
 
@@ -531,6 +547,8 @@ Response
 
 #### S09 - Deleção de estudante (Soft Delete)
 
+Rota privada destinada a deleção de um estudante com base no id, que necessariamente deve ter sido criado pelo usuário autenticado.
+
 `DELETE /api/students/:id`
 
 | Parâmetro | Tipo  | Descrição                                                   |
@@ -567,6 +585,8 @@ Status 204 No Content
 ##
 
 #### S10 - Atualização de estudante
+
+Rota privada destinada a atualização de dados do estudante com base no id, que necessariamente deve ter sido criado pelo usuário autenticado.
 
 `PUT /api/students/:id`
 
@@ -644,6 +664,8 @@ Response
 
 #### S13 - Listagem de um estudante
 
+Rota privada destinada a listagem de um estudante com base no id, que necessariamente deve ter sido criado pelo usuário autenticado.
+
 `GET /api/students/:id`
 
 | Parâmetro | Tipo  | Descrição                                                   |
@@ -692,6 +714,7 @@ Response
 | :-------------- | :----------------------- |
 | `200`           | Ok - Sucesso             |
 | `401`           | Não autenticado          |
+| `403`           | Ação não permitida       |
 | `404`           | Estudante não encontrado |
 | `500`           | Erro interno no servidor |
 
@@ -700,6 +723,8 @@ Response
 ### Endpoints - Rotas Treinos
 
 #### S11 - Cadastro de treinos
+
+Rota privada destinada ao cadastro de treinos para um estudante.
 
 `POST /api/workouts`
 
@@ -768,7 +793,9 @@ Response
 
 ##
 
-#### S13 - Listagem de treinos do estudante
+#### S12 - Listagem de treinos do estudante
+
+Rota privada destinada a listagem de treinos de um estudante com base no id.
 
 `GET /api/students/:id/workouts`
 
@@ -837,6 +864,8 @@ Response
 ##
 
 #### S14 - Exportação de PDF
+
+Rota privada destinada ao serviço de exportação de PDF do treino do estudante.
 
 `GET /api/students/export?id_do_estudante=:id`
 
