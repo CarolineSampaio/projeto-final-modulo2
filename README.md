@@ -91,7 +91,7 @@ php artisan db:seed PopulatePlans
 php artisan migrate
 ```
 
-### Execute o comando para inicializar o servidor
+### Inicialize o servidor
 
 ```sh
 php artisan serve
@@ -99,7 +99,7 @@ php artisan serve
 
 ## Documentação da API
 
-### Endpoints - Rotas Usuários
+### Endpoints - Rotas Usuário
 
 #### S01 - Cadatro de usuário
 
@@ -107,7 +107,7 @@ php artisan serve
 
 | Parâmetro    | Tipo     | Descrição                                                          |
 | ------------ | -------- | ------------------------------------------------------------------ |
-| `id`         | `int`    | **Autoincremental**. Chave primária da tabela.                     |
+| `id`         | `int`    | **Auto Incremento**. Chave primária da tabela.                     |
 | `name`       | `string` | **Máximo de 255 caracteres e obrigatório**.                        |
 | `email`      | `string` | **Máximo de 255 caracteres, obrigatório e único**.                 |
 | `date_birth` | `date`   | **Máximo de 255 caracteres, obrigatório e no formato yyyy-mm-dd**. |
@@ -172,9 +172,7 @@ Response
 
 #### S02 - Login do usuário
 
-```http
- POST /api/users
-```
+`POST /api/login`
 
 | Parâmetro  | Tipo     | Descrição        |
 | ---------- | -------- | ---------------- |
