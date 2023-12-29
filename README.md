@@ -44,10 +44,12 @@ composer install
 ### Crie o banco de dados usando docker
 
 ```bash
-docker run --name my_postgres_container -e POSTGRESQL_USERNAME=my_username -e POSTGRESQL_PASSWORD=my_password -e POSTGRESQL_DATABASE=database_name -p 5432:5432 bitnami/postgresql
+docker run --name your_postgres_container -e POSTGRESQL_USERNAME=your_username -e POSTGRESQL_PASSWORD=your_password -e POSTGRESQL_DATABASE=academia_api -p 5432:5432 bitnami/postgresql
 ```
 
 ##### A porta 5432 representa o mapeamento da porta padrão do PostgreSQL, porém, se necessário, poderá ser alterada.
+
+##### Alterar os campos que iniciam com "your". Exemplo: "your_username" altere para o nome de usuário desejado
 
 #### Conecte com o dbeaver para visualizar os dados - opcional
 
@@ -898,9 +900,35 @@ The response is binary file.
 
 ## Melhorias
 
+-   [x] **Implementar testes unitários**: Os testes integrados do Laravel fornecem uma maneira eficaz de verificar a funcionalidade do código de forma automatizada, contribuindo para a robustez do sistema e a detecção rápida de problemas, garantindo a estabilidade e confiabilidade do sistema .
+
+-   [x] **Tratar exceções com handler**: A introdução de um mecanismo de tratamento de exceções com handler elimina a necessidade de utilizar blocos `try-catch` nas requisições. Isso melhora a experiência do usuário ao lidar com situações inesperadas de forma mais centralizada, simplificando o código e facilitando a depuração.
+
+-   **Realizar o Deploy da API no sistema da AWS**: Implementar o deploy da API na AWS oferece benefícios em termos de escalabilidade, confiabilidade e facilidade de gerenciamento. A AWS fornece uma infraestrutura confiável para hospedar aplicativos.
+
+-   **Implementar Docker file e Docker Compose**: Utilizar containers Docker simplifica o processo de configuração local e facilita o deploy, garantindo consistência entre diferentes ambientes.
+
+-   **Normalizar banco de dados - address table**: Normalizar o banco de dados, separando informações de endereço em uma tabela dedicada, melhora a eficiência e a manutenção do sistema, enquanto remove os campos de endereço da tabela students.
+
+-   **Criar rota para documentação com Swagger ou OpenAPI**: Disponibilizar uma documentação clara e interativa da API por meio do Swagger ou OpenAPI facilita o entendimento, integração e testes por parte de desenvolvedores terceiros.
+
+-   **Alterar linguagem do projeto, para evitar a tradução das respostas**: Atualmente, as respostas foram traduzidas manualmente do inglês para o português e estão armazenadas na pasta 'eng'. A melhoria planejada envolve a criação de uma nova pasta, 'pt', e a implementação da mudança de idioma da aplicação.
+
+-   **Habilitar atualização e deleção de um usuário**: Permitir a atualização e deleção de usuários proporciona maior flexibilidade na gestão de dados e na correção de informações incorretas.
+
+-   **Habilitar atualização de um exercício e de um treino**: Possibilitar a atualização de exercícios e treinos permite ajustes dinâmicos com base no progresso e nas necessidades dos usuários.
+
+-   **Limitar a criação de treino apenas para estudantes que foram cadastrados pelo usuário autenticado**: Garantir que apenas o usuário autenticado e que criou aquele estudante possa criar os treinos ajuda a manter a integridade e segurança dos dados.
+
+-   **Vincular o treino do estudante ao treinador que criou o treino**: Estabelecer essa relação facilita a comunicação e acompanhamento entre treinadores e estudantes, desse forma também seria possível acompanhar quantos treinos cada usuário já criou.
+
+-   **Anexar um gif, imagem ou vídeo no pdf dos treinos**: Enriquecer os materiais de treino com mídia visual pode melhorar a compreensão e execução correta dos exercícios.
+
+-   **Criar uma tarefa agendada de envio de e-mail**: Ao adicionar lembretes automatizados pode aumentar a adesão dos estudantes aos treinos programados, visto que o estudante será lembrado que existe treino cadastrado para ser feito naquele dia.
+
+-   **Implementar uma ferramenta de acompanhamento de progresso de treinos**: Oferecer uma ferramenta de acompanhamento ajuda os estudantes a visualizarem e monitorarem seu progresso ao longo do tempo.
+
+-   **Implementar planos de acesso estudantes**: Personalizar os planos de acesso oferece uma experiência mais adaptada às necessidades individuais dos estudantes, de modo que cada plano dará acesso a benefícios diferentes, como plano alimentar, acompanhamento exclusivo, avaliações individualizadas, entre outras vantagens.
+
 <!-- acesso planejamento banco de dados:
-https://dbdocs.io/caroline_08022/GOFIT_System -->
-
-```
-
-```
+    https://dbdocs.io/caroline_08022/GOFIT_System -->
