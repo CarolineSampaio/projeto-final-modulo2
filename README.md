@@ -12,13 +12,38 @@ O GO!FIT System agora conta com um back-end dedicado e robusto, desenvolvido em 
 -   [Composer 2.6.5 ou superior](https://getcomposer.org/download/)
 -   [Docker](https://docs.docker.com/desktop/install/windows-install/)
 
-Esse projeto foi desenvolvido usando [Trunk-based Development](https://www.optimizely.com/optimization-glossary/trunk-based-development/).
+## Tecnologias e técnicas utilizadas
 
-## Tecnologias utilizadas
+Essa API REST completa foi desenvolvida utilizando:
 
-<!--Tecnologias utilizadas durante o projeto-->
+-   **Linguagem:** PHP
+-   **Framework:** Laravel 10
+-   **Banco de Dados:** PostgreSQL
+-   **Testes Unitários:** PHPUnit Laravel
+
+### Metodologia de Desenvolvimento
+
+---
+
+O projeto foi conduzido sob a prática de [Trunk-based Development](https://www.optimizely.com/optimization-glossary/trunk-based-development), que oferece benefícios notáveis. Essa metodologia proporciona um fluxo de trabalho simples e direto, promovendo uma integração rápida e contínua com a branch principal. Essa abordagem ágil facilita iterações frequentes, detecção precoce de problemas e entregas contínuas, contribuindo para a eficiência e qualidade do desenvolvimento.
+
+### Modelagem da base de dados PostgreSQL
+
+---
+
+Antes do início do projeto, foi elaborada a modelagem utilizando o [dbdiagram.io](https://dbdiagram.io/).
+
+A documentação detalhada do modelo está disponível em [dbdocs.io/caroline_08022/GOFIT_System](https://dbdocs.io/caroline_08022/GOFIT_System), e uma versão simplificada pode ser visualizada na imagem abaixo:
+
+<p align=center>
+    <img src="public/images/model_banco.png" alt="Logo Go!Fit System" width="900">
+</p>
+
+A imagem acima proporciona uma perspectiva geral da estrutura do banco de dados integrado ao sistema.
 
 ### IDE utilizada para o desenvolvimento
+
+---
 
 [VSCode](https://code.visualstudio.com/)
 
@@ -39,7 +64,7 @@ cd projeto-final-modulo2
 composer install
 ```
 
-##
+---
 
 ### Crie o banco de dados usando docker
 
@@ -55,7 +80,7 @@ docker run --name your_postgres_container -e POSTGRESQL_USERNAME=your_username -
 
 No DBeaver, vá para "Nova Conexão", escolha "PostgreSQL", avance para a próxima aba e insira as credenciais conforme definido no comando anterior de criação do banco de dados. Teste a conexão e conclua o processo.
 
-##
+---
 
 ### Configure o ambiente
 
@@ -175,7 +200,7 @@ Response
 | `400`           | Dados inválidos          |
 | `500`           | Erro interno no servidor |
 
-##
+---
 
 #### S02 - Login do usuário
 
@@ -225,7 +250,7 @@ Response
 | `401`           | Credenciais inválidas    |
 | `500`           | Erro interno no servidor |
 
-##
+---
 
 #### S03 - Dashboard
 
@@ -263,7 +288,7 @@ Response
 | `401`           | Não autenticado          |
 | `500`           | Erro interno no servidor |
 
-##
+---
 
 ### Endpoints - Rotas Exercícios
 
@@ -315,7 +340,7 @@ Response
 | `409`           | Conflito, exercício já existe |
 | `500`           | Erro interno no servidor      |
 
-##
+---
 
 #### S05 - Listagem de exercícios
 
@@ -361,7 +386,7 @@ Response
 | `401`           | Não autenticado          |
 | `500`           | Erro interno no servidor |
 
-##
+---
 
 #### S06 - Deleção de um exercício
 
@@ -376,7 +401,7 @@ Rota privada destinada a deleção de um exercício com base no id, que necessar
 #### Exemplo de Request:
 
 ```http
-/api/exercises/1
+DELETE /api/exercises/1
 ```
 
 Headers
@@ -388,7 +413,7 @@ Auth: Bearer token
 
 Response
 
-```json
+```
 Status 204 No Content
 ```
 
@@ -401,7 +426,7 @@ Status 204 No Content
 | `409`           | Conflito por existir treinos |
 | `500`           | Erro interno no servidor     |
 
-##
+---
 
 ### Endpoints - Rotas Estudante
 
@@ -485,7 +510,7 @@ Response
 | `403`           | Limite excedido          |
 | `500`           | Erro interno no servidor |
 
-##
+---
 
 #### S08 - Listagem de estudantes
 
@@ -493,7 +518,7 @@ Rota privada destinada a listagem de todos os estudantes cadastrados pelo usuár
 
 `GET /api/students`
 
-Opcionalmente, pode ser adicionado ao patch um query params, de modo a realizar uma pesquisa geral com base no nome, cpf ou e-mail.
+Opcionalmente, pode ser adicionado ao path um query params, de modo a realizar uma pesquisa geral com base no nome, cpf ou e-mail.
 
 Exemplo:
 
@@ -545,7 +570,7 @@ Response
 | `401`           | Não autenticado          |
 | `500`           | Erro interno no servidor |
 
-##
+---
 
 #### S09 - Deleção de estudante (Soft Delete)
 
@@ -584,7 +609,7 @@ Status 204 No Content
 | `404`           | Estudante não encontrado |
 | `500`           | Erro interno no servidor |
 
-##
+---
 
 #### S10 - Atualização de estudante
 
@@ -609,7 +634,7 @@ Rota privada destinada a atualização de dados do estudante com base no id, que
 #### Exemplo de Request
 
 ```http
-/api/students/1
+PUT /api/students/1
 ```
 
 Headers
@@ -662,7 +687,7 @@ Response
 | `404`           | Estudante não encontrado |
 | `500`           | Erro interno no servidor |
 
-##
+---
 
 #### S13 - Listagem de um estudante
 
@@ -720,7 +745,7 @@ Response
 | `404`           | Estudante não encontrado |
 | `500`           | Erro interno no servidor |
 
-##
+---
 
 ### Endpoints - Rotas Treinos
 
@@ -793,7 +818,7 @@ Response
 | `409`           | Conflito, exercício já cadastrado para o mesmo dia para o aluno |
 | `500`           | Erro interno no servidor                                        |
 
-##
+---
 
 #### S12 - Listagem de treinos do estudante
 
@@ -863,7 +888,7 @@ Response
 | `404`           | Estudante não encontrado |
 | `500`           | Erro interno no servidor |
 
-##
+---
 
 #### S14 - Exportação de PDF
 
@@ -885,7 +910,7 @@ Auth: Bearer token
 
 Response
 
-```http
+```
 The response is binary file.
 ```
 
@@ -896,13 +921,13 @@ The response is binary file.
 | `404`           | Estudante não encontrado |
 | `500`           | Erro interno no servidor |
 
-##
+---
 
 ## Melhorias
 
 -   [x] **Implementar testes unitários**: Os testes integrados do Laravel fornecem uma maneira eficaz de verificar a funcionalidade do código de forma automatizada, contribuindo para a robustez do sistema e a detecção rápida de problemas, garantindo a estabilidade e confiabilidade do sistema .
 
--   [x] **Tratar exceções com handler**: A introdução de um mecanismo de tratamento de exceções com handler elimina a necessidade de utilizar blocos `try-catch` nas requisições. Isso melhora a experiência do usuário ao lidar com situações inesperadas de forma mais centralizada, simplificando o código e facilitando a depuração.
+-   [x] **Tratar exceções com handler**: A introdução de um mecanismo de tratamento de exceção global, eliminando a necessidade de duplicar blocos `try-catch` em cada controller. Isso melhora a experiência do desenvolvedor ao lidar com situações inesperadas de forma mais centralizada, simplificando o código e facilitando a depuração.
 
 -   **Realizar o Deploy da API no sistema da AWS**: Implementar o deploy da API na AWS oferece benefícios em termos de escalabilidade, confiabilidade e facilidade de gerenciamento. A AWS fornece uma infraestrutura confiável para hospedar aplicativos.
 
