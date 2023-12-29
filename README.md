@@ -39,6 +39,8 @@ cd projeto-final-modulo2
 composer install
 ```
 
+##
+
 ### Crie o banco de dados usando docker
 
 ```bash
@@ -50,6 +52,8 @@ docker run --name my_postgres_container -e POSTGRESQL_USERNAME=my_username -e PO
 #### Conecte com o dbeaver para visualizar os dados - opcional
 
 No DBeaver, vá para "Nova Conexão", escolha "PostgreSQL", avance para a próxima aba e insira as credenciais conforme definido no comando anterior de criação do banco de dados. Teste a conexão e conclua o processo.
+
+##
 
 ### Configure o ambiente
 
@@ -107,7 +111,6 @@ php artisan serve
 
 | Parâmetro    | Tipo     | Descrição                                                          |
 | ------------ | -------- | ------------------------------------------------------------------ |
-| `id`         | `int`    | **Auto Incremento**. Chave primária da tabela.                     |
 | `name`       | `string` | **Máximo de 255 caracteres e obrigatório**.                        |
 | `email`      | `string` | **Máximo de 255 caracteres, obrigatório e único**.                 |
 | `date_birth` | `date`   | **Máximo de 255 caracteres, obrigatório e no formato yyyy-mm-dd**. |
@@ -213,8 +216,176 @@ Response
 | :-------------- | :----------------------- |
 | `200`           | Ok - Sucesso             |
 | `400`           | Dados inválidos          |
-| `401`           | Login inválido           |
+| `401`           | Credenciais inválidas    |
 | `500`           | Erro interno no servidor |
+
+##
+
+#### S03 - Dashboard
+
+`GET /api/dashboard`
+
+#### Exemplo de Request
+
+Headers
+
+```http
+Accept: application/json
+Auth: Bearer token
+```
+
+Response
+
+```json
+{
+    "message": "",
+    "status": 200,
+    "data": {
+        "registered_students": 0,
+        "registered_exercises": 0,
+        "current_user_plan": "Plano Prata",
+        "remaining_students": 20
+    }
+}
+```
+
+| Response Status | Descrição                |
+| :-------------- | :----------------------- |
+| `200`           | Ok - Sucesso             |
+| `401`           | Não autenticado          |
+| `500`           | Erro interno no servidor |
+
+##
+
+### Endpoints - Rotas Exercícios
+
+#### S04 - Cadastro de exercícios
+
+`POST /api/exercises`
+
+| Parâmetro     | Tipo     | Descrição                                   |
+| ------------- | -------- | ------------------------------------------- |
+| `description` | `string` | **Máximo de 255 caracteres e obrigatório**. |
+
+#### Exemplo de Request
+
+Headers
+
+```http
+Accept: application/json
+Auth: Bearer token
+```
+
+Request Body
+
+```json
+{
+    "description": "Cadeira Flexora"
+}
+```
+
+Response
+
+```json
+{
+    "message": "Exercício cadastrado com sucesso.",
+    "status": 201,
+    "data": {
+        "description": "cadeira flexora",
+        "id": 1
+    }
+}
+```
+
+| Response Status | Descrição                     |
+| :-------------- | :---------------------------- |
+| `201`           | Criado com sucesso            |
+| `400`           | Dados inválidos               |
+| `401`           | Não autenticado               |
+| `409`           | Conflito, exercício já existe |
+| `500`           | Erro interno no servidor      |
+
+##
+
+#### S05 - Listagem de exercícios
+
+`GET /api/exercises`
+
+#### Exemplo de Request
+
+Headers
+
+```http
+Accept: application/json
+Auth: Bearer token
+```
+
+Response
+
+```json
+{
+    "message": "Exercícios cadastrados por Jane Doe, listados com sucesso",
+    "status": 200,
+    "data": [
+        {
+            "id": 3,
+            "description": "agachamento"
+        },
+        {
+            "id": 1,
+            "description": "cadeira flexora"
+        },
+        {
+            "id": 2,
+            "description": "supino"
+        }
+    ]
+}
+```
+
+| Response Status | Descrição                |
+| :-------------- | :----------------------- |
+| `200`           | Ok - Sucesso             |
+| `401`           | Não autenticado          |
+| `500`           | Erro interno no servidor |
+
+##
+
+#### S06 - Deleção de exercícios
+
+`DELETE /api/exercises/:id`
+
+| Parâmetro | Tipo  | Descrição                                                    |
+| --------- | ----- | ------------------------------------------------------------ |
+| `id`      | `int` | **Obrigatório e chave primária válida na tabela exercises**. |
+
+#### Exemplo de Request:
+
+```http
+/api/exercises/1
+```
+
+Headers
+
+```http
+Accept: application/json
+Auth: Bearer token
+```
+
+Response
+
+```json
+Status: 204 No Content
+```
+
+| Response Status | Descrição                    |
+| :-------------- | :--------------------------- |
+| `204`           | Sem conteúdo (sucesso)       |
+| `401`           | Não autenticado              |
+| `403`           | Ação não permitida           |
+| `404`           | Exercício não encontrado     |
+| `409`           | Conflito por existir treinos |
+| `500`           | Erro interno no servidor     |
 
 ##
 
