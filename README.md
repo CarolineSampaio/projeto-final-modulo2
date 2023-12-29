@@ -697,6 +697,176 @@ Response
 
 ##
 
+### Endpoints - Rotas Treinos
+
+#### S11 - Cadastro de treinos
+
+`POST /api/workouts`
+
+| Parâmetro      | Tipo      | Descrição                                                                                        |
+| -------------- | --------- | ------------------------------------------------------------------------------------------------ |
+| `student_id`   | `int`     | **Obrigatório**. ID do estudante, chave primária válida da tabela `students`.                    |
+| `exercise_id`  | `int`     | **Obrigatório**. ID do exercício, chave primária válida da tabela `exercises`.                   |
+| `repetitions`  | `int`     | **Obrigatório**. Número de repetições no treino.                                                 |
+| `weight`       | `decimal` | **Obrigatório**. Peso a ser utilizado no treino.                                                 |
+| `break_time`   | `int`     | **Obrigatório**. Tempo de descanso entre as séries, em segundos.                                 |
+| `day`          | `string`  | **Obrigatório**. enum contendo os valores: SEGUNDA,TERÇA, QUARTA, QUINTA, SEXTA, SÁBADO, DOMINGO |
+| `observations` | `string`  | Observações adicionais sobre o treino.                                                           |
+| `time`         | `int`     | **Obrigatório**. Tempo total do treino, em minutos.                                              |
+
+#### Exemplo de Request
+
+Headers
+
+```http
+Accept: application/json
+Auth: Bearer token
+```
+
+Request Body
+
+```json
+{
+    "student_id": 1,
+    "exercise_id": 2,
+    "repetitions": 10,
+    "weight": 10.5,
+    "break_time": 60,
+    "day": "SEGUNDA",
+    "observations": "Treino inicial",
+    "time": 30
+}
+```
+
+Response
+
+```json
+{
+    "message": "Treino cadastrado com sucesso.",
+    "status": 201,
+    "data": {
+        "student_id": 1,
+        "exercise_id": 2,
+        "repetitions": 10,
+        "weight": 10.5,
+        "break_time": 60,
+        "day": "SEGUNDA",
+        "observations": "Treino inicial",
+        "time": 30,
+        "id": 1
+    }
+}
+```
+
+| Response Status | Descrição                                                       |
+| :-------------- | :-------------------------------------------------------------- |
+| `201`           | Criado com sucesso                                              |
+| `400`           | Dados inválidos                                                 |
+| `401`           | Não autenticado                                                 |
+| `409`           | Conflito, exercício já cadastrado para o mesmo dia para o aluno |
+| `500`           | Erro interno no servidor                                        |
+
+##
+
+#### S13 - Listagem de treinos do estudante
+
+`GET /api/students/:id/workouts`
+
+| Parâmetro | Tipo  | Descrição                                                   |
+| --------- | ----- | ----------------------------------------------------------- |
+| `id`      | `int` | **Obrigatório e chave primária válida na tabela students**. |
+
+#### Exemplo de Request
+
+```http
+/api/students/1/workouts
+```
+
+Headers
+
+```http
+Accept: application/json
+Auth: Bearer token
+```
+
+Response
+
+```json
+{
+    "message": "Treinos listados com sucesso",
+    "status": 200,
+    "data": {
+        "student_id": 1,
+        "student_name": "John Doe",
+        "workouts": {
+            "SEGUNDA": [
+                {
+                    "id": 1,
+                    "student_id": 1,
+                    "exercise_id": 2,
+                    "repetitions": 10,
+                    "weight": "10.50",
+                    "break_time": 60,
+                    "day": "SEGUNDA",
+                    "observations": "Treino inicial",
+                    "time": 30,
+                    "exercises": {
+                        "id": 2,
+                        "description": "supino"
+                    }
+                }
+            ],
+            "TERÇA": [],
+            "QUARTA": [],
+            "QUINTA": [],
+            "SEXTA": [],
+            "SÁBADO": [],
+            "DOMINGO": []
+        }
+    }
+}
+```
+
+| Response Status | Descrição                |
+| :-------------- | :----------------------- |
+| `200`           | Ok - Sucesso             |
+| `401`           | Não autenticado          |
+| `404`           | Estudante não encontrado |
+| `500`           | Erro interno no servidor |
+
+##
+
+#### S14 - Exportação de PDF
+
+`GET /api/students/export?id_do_estudante=:id`
+
+| Parâmetro         | Tipo  | Descrição                                  |
+| :---------------- | :---- | :----------------------------------------- |
+| `id_do_estudante` | `int` | `Chave primária válida da tabela students` |
+
+#### Exemplo de Request
+
+Headers
+
+```http
+Auth: Bearer token
+```
+
+Response
+
+```http
+The response is binary file.
+```
+
+| Response Status | Descrição                |
+| :-------------- | :----------------------- |
+| `200`           | Ok - Sucesso             |
+| `401`           | Não autenticado          |
+| `404`           | Estudante não encontrado |
+| `500`           | Erro interno no servidor |
+
+##
+
 ## Melhorias
 
 <!-- acesso planejamento banco de dados:
