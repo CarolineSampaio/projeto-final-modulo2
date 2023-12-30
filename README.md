@@ -986,9 +986,11 @@ The response is binary file.
 
 -   **Alterar linguagem do projeto, para evitar a tradução das respostas**: Atualmente, as respostas foram traduzidas manualmente do inglês para o português e estão armazenadas na pasta 'eng'. A melhoria planejada envolve a criação de uma nova pasta, 'pt', e a implementação da mudança de idioma da aplicação.
 
--   **Habilitar atualização e deleção de um usuário**: Permitir a atualização e deleção de usuários proporciona maior flexibilidade na gestão de dados e na correção de informações incorretas.
+-   **Implementar a funcionalidade de logout para usuários**: Introduzir a capacidade de logout é essencial para oferecer uma experiência completa de autenticação. Atualmente, os usuários podem fazer login, mas não têm a opção de fazer logout manualmente. Apesar do token expirar automaticamente após 24 horas, a implementação do logout proporcionará maior controle ao usuário sobre sua sessão.
 
--   **Habilitar atualização de um exercício e de um treino**: Possibilitar a atualização de exercícios e treinos permite ajustes dinâmicos com base no progresso e nas necessidades dos usuários.
+-   **Permitir a atualização e deleção de um usuário**: Permitir a atualização e deleção de usuários proporciona maior flexibilidade na gestão de dados e na correção de informações incorretas.
+
+-   **Permitir a atualização de um exercício e de um treino**: Possibilitar a atualização de exercícios e treinos permite ajustes dinâmicos com base no progresso e nas necessidades dos usuários.
 
 -   **Limitar a criação de treino apenas para estudantes que foram cadastrados pelo usuário autenticado**: Garantir que apenas o usuário autenticado e que criou aquele estudante possa criar os treinos ajuda a manter a integridade e segurança dos dados.
 
