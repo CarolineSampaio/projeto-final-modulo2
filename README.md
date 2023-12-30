@@ -21,15 +21,11 @@ Essa API REST completa foi desenvolvida utilizando:
 -   **Banco de Dados:** PostgreSQL
 -   **Testes Unitários:** PHPUnit Laravel
 
-### Metodologia de Desenvolvimento
-
----
+## Metodologia de Desenvolvimento
 
 O projeto foi conduzido sob a prática de [Trunk-based Development](https://www.optimizely.com/optimization-glossary/trunk-based-development), que oferece benefícios notáveis. Essa metodologia proporciona um fluxo de trabalho simples e direto, promovendo uma integração rápida e contínua com a branch principal. Essa abordagem ágil facilita iterações frequentes, detecção precoce de problemas e entregas contínuas, contribuindo para a eficiência e qualidade do desenvolvimento.
 
-### Modelagem da base de dados PostgreSQL
-
----
+## Modelagem da base de dados PostgreSQL
 
 Antes do início do projeto, foi elaborada a modelagem utilizando o [dbdiagram.io](https://dbdiagram.io/).
 
@@ -41,9 +37,7 @@ A documentação detalhada do modelo está disponível em [dbdocs.io/caroline_08
 
 A imagem acima proporciona uma perspectiva geral da estrutura do banco de dados integrado ao sistema.
 
-### IDE utilizada para o desenvolvimento
-
----
+## IDE utilizada para o desenvolvimento
 
 [VSCode](https://code.visualstudio.com/)
 
@@ -64,7 +58,7 @@ cd projeto-final-modulo2
 composer install
 ```
 
----
+##
 
 ### Crie o banco de dados usando docker
 
@@ -80,7 +74,7 @@ docker run --name your_postgres_container -e POSTGRESQL_USERNAME=your_username -
 
 No DBeaver, vá para "Nova Conexão", escolha "PostgreSQL", avance para a próxima aba e insira as credenciais conforme definido no comando anterior de criação do banco de dados. Teste a conexão e conclua o processo.
 
----
+##
 
 ### Configure o ambiente
 
@@ -138,14 +132,14 @@ Rota pública destinada ao cadastro de um novo usuário.
 
 `POST /api/users`
 
-| Parâmetro    | Tipo     | Descrição                                                                  |
-| ------------ | -------- | -------------------------------------------------------------------------- |
-| `name`       | `string` | **Máximo de 255 caracteres e obrigatório**.                                |
-| `email`      | `string` | **Máximo de 255 caracteres, obrigatório, válido e único**.                 |
-| `date_birth` | `date`   | **Máximo de 255 caracteres, obrigatório, válido e no formato yyyy-mm-dd**. |
-| `cpf`        | `string` | **Máximo de 11 caracteres, obrigatório, válido e único**.                  |
-| `password`   | `string` | **Máximo de 255 caracteres e obrigatório**.                                |
-| `plan_id`    | `int`    | **Obrigatório**. Coluna chave estrangeira da tabela `plans`.               |
+| Parâmetro | Tipo | Descrição |
+| **_ | _**-- | **\*-- |
+| `name` | `string` | **Máximo de 255 caracteres e obrigatório**. |
+| `email` | `string` | **Máximo de 255 caracteres, obrigatório, válido e único**. |
+| `date_birth` | `date` | **Máximo de 255 caracteres, obrigatório, válido e no formato yyyy-mm-dd**. |
+| `cpf` | `string` | **Máximo de 11 caracteres, obrigatório, válido e único**. |
+| `password` | `string` | **Máximo de 255 caracteres e obrigatório**. |
+| `plan_id` | `int` | **Obrigatório\*\*. Coluna chave estrangeira da tabela `plans`. |
 
 #### Exemplo de Request
 
@@ -194,13 +188,13 @@ Response
 }
 ```
 
-| Response Status | Descrição                |
-| :-------------- | :----------------------- |
-| `201`           | Criado com sucesso       |
-| `400`           | Dados inválidos          |
-| `500`           | Erro interno no servidor |
+| Response Status | Descrição |
+| :**_-- | :_**-- |
+| `201` | Criado com sucesso |
+| `400` | Dados inválidos |
+| `500` | Erro interno no servidor |
 
----
+##
 
 #### S02 - Login do usuário
 
@@ -208,10 +202,10 @@ Rota pública destinada ao serviço de login via e-mail e senha.
 
 `POST /api/login`
 
-| Parâmetro  | Tipo     | Descrição        |
-| ---------- | -------- | ---------------- |
-| `email`    | `string` | **Obrigatório**. |
-| `password` | `string` | **Obrigatório**. |
+| Parâmetro | Tipo | Descrição |
+| **_- | _**-- | **\*- |
+| `email` | `string` | **Obrigatório**. |
+| `password` | `string` | **Obrigatório\*\*. |
 
 #### Exemplo de Request
 
@@ -243,14 +237,14 @@ Response
 }
 ```
 
-| Response Status | Descrição                |
-| :-------------- | :----------------------- |
-| `200`           | Ok - Sucesso             |
-| `400`           | Dados inválidos          |
-| `401`           | Credenciais inválidas    |
-| `500`           | Erro interno no servidor |
+| Response Status | Descrição |
+| :**_-- | :_**-- |
+| `200` | Ok - Sucesso |
+| `400` | Dados inválidos |
+| `401` | Credenciais inválidas |
+| `500` | Erro interno no servidor |
 
----
+##
 
 #### S03 - Dashboard
 
@@ -282,13 +276,13 @@ Response
 }
 ```
 
-| Response Status | Descrição                |
-| :-------------- | :----------------------- |
-| `200`           | Ok - Sucesso             |
-| `401`           | Não autenticado          |
-| `500`           | Erro interno no servidor |
+| Response Status | Descrição |
+| :**_-- | :_**-- |
+| `200` | Ok - Sucesso |
+| `401` | Não autenticado |
+| `500` | Erro interno no servidor |
 
----
+##
 
 ### Endpoints - Rotas Exercícios
 
@@ -298,9 +292,9 @@ Rota privada destinada ao cadastro de exercícios.
 
 `POST /api/exercises`
 
-| Parâmetro     | Tipo     | Descrição                                   |
-| ------------- | -------- | ------------------------------------------- |
-| `description` | `string` | **Máximo de 255 caracteres e obrigatório**. |
+| Parâmetro | Tipo | Descrição |
+| **_- | _**-- | **\*- |
+| `description` | `string` | **Máximo de 255 caracteres e obrigatório\*\*. |
 
 #### Exemplo de Request
 
@@ -332,15 +326,15 @@ Response
 }
 ```
 
-| Response Status | Descrição                     |
-| :-------------- | :---------------------------- |
-| `201`           | Criado com sucesso            |
-| `400`           | Dados inválidos               |
-| `401`           | Não autenticado               |
-| `409`           | Conflito, exercício já existe |
-| `500`           | Erro interno no servidor      |
+| Response Status | Descrição |
+| :**_-- | :_**- |
+| `201` | Criado com sucesso |
+| `400` | Dados inválidos |
+| `401` | Não autenticado |
+| `409` | Conflito, exercício já existe |
+| `500` | Erro interno no servidor |
 
----
+##
 
 #### S05 - Listagem de exercícios
 
@@ -380,13 +374,13 @@ Response
 }
 ```
 
-| Response Status | Descrição                |
-| :-------------- | :----------------------- |
-| `200`           | Ok - Sucesso             |
-| `401`           | Não autenticado          |
-| `500`           | Erro interno no servidor |
+| Response Status | Descrição |
+| :**_-- | :_**-- |
+| `200` | Ok - Sucesso |
+| `401` | Não autenticado |
+| `500` | Erro interno no servidor |
 
----
+##
 
 #### S06 - Deleção de um exercício
 
@@ -394,9 +388,9 @@ Rota privada destinada a deleção de um exercício com base no id, que necessar
 
 `DELETE /api/exercises/:id`
 
-| Parâmetro | Tipo  | Descrição                                                    |
-| --------- | ----- | ------------------------------------------------------------ |
-| `id`      | `int` | **Obrigatório e chave primária válida na tabela exercises**. |
+| Parâmetro | Tipo | Descrição |
+| **_ | _**-- | **\* |
+| `id` | `int` | **Obrigatório e chave primária válida na tabela exercises\*\*. |
 
 #### Exemplo de Request:
 
@@ -417,16 +411,16 @@ Response
 Status 204 No Content
 ```
 
-| Response Status | Descrição                    |
-| :-------------- | :--------------------------- |
-| `204`           | Sem conteúdo (sucesso)       |
-| `401`           | Não autenticado              |
-| `403`           | Ação não permitida           |
-| `404`           | Exercício não encontrado     |
-| `409`           | Conflito por existir treinos |
-| `500`           | Erro interno no servidor     |
+| Response Status | Descrição |
+| :**_-- | :_** |
+| `204` | Sem conteúdo (sucesso) |
+| `401` | Não autenticado |
+| `403` | Ação não permitida |
+| `404` | Exercício não encontrado |
+| `409` | Conflito por existir treinos |
+| `500` | Erro interno no servidor |
 
----
+##
 
 ### Endpoints - Rotas Estudante
 
@@ -436,19 +430,19 @@ Rota privada destinada ao cadastro de um estudante. O sucesso da requisição es
 
 `POST /api/students`
 
-| Parâmetro      | Tipo     | Descrição                                                                  |
-| -------------- | -------- | -------------------------------------------------------------------------- |
-| `name`         | `string` | **Máximo de 255 caracteres e obrigatório**.                                |
-| `email`        | `string` | **Máximo de 255 caracteres, obrigatório, válido e único**.                 |
-| `date_birth`   | `string` | **Máximo de 255 caracteres, obrigatório, válido e no formato yyyy-mm-dd**. |
-| `cpf`          | `string` | **Máximo de 11 caracteres, obrigatório, válido e único**.                  |
-| `contact`      | `string` | **Máximo de 20 caracteres**.                                               |
-| `cep`          | `string` | **Máximo de 20 caracteres**.                                               |
-| `street`       | `string` | **Máximo de 30 caracteres**.                                               |
-| `number`       | `string` | **Máximo de 30 caracteres**.                                               |
-| `neighborhood` | `string` | **Máximo de 50 caracteres**.                                               |
-| `city`         | `string` | **Máximo de 50 caracteres**.                                               |
-| `state`        | `string` | **Máximo de 2 caracteres**.                                                |
+| Parâmetro | Tipo | Descrição |
+| **_-- | _**-- | **\*-- |
+| `name` | `string` | **Máximo de 255 caracteres e obrigatório**. |
+| `email` | `string` | **Máximo de 255 caracteres, obrigatório, válido e único**. |
+| `date_birth` | `string` | **Máximo de 255 caracteres, obrigatório, válido e no formato yyyy-mm-dd**. |
+| `cpf` | `string` | **Máximo de 11 caracteres, obrigatório, válido e único**. |
+| `contact` | `string` | **Máximo de 20 caracteres**. |
+| `cep` | `string` | **Máximo de 20 caracteres**. |
+| `street` | `string` | **Máximo de 30 caracteres**. |
+| `number` | `string` | **Máximo de 30 caracteres**. |
+| `neighborhood` | `string` | **Máximo de 50 caracteres**. |
+| `city` | `string` | **Máximo de 50 caracteres**. |
+| `state` | `string` | **Máximo de 2 caracteres\*\*. |
 
 #### Exemplo de Request
 
@@ -502,15 +496,15 @@ Response
 }
 ```
 
-| Response Status | Descrição                |
-| :-------------- | :----------------------- |
-| `201`           | Criado com sucesso       |
-| `400`           | Dados inválidos          |
-| `401`           | Não autenticado          |
-| `403`           | Limite excedido          |
-| `500`           | Erro interno no servidor |
+| Response Status | Descrição |
+| :**_-- | :_**-- |
+| `201` | Criado com sucesso |
+| `400` | Dados inválidos |
+| `401` | Não autenticado |
+| `403` | Limite excedido |
+| `500` | Erro interno no servidor |
 
----
+##
 
 #### S08 - Listagem de estudantes
 
@@ -524,8 +518,8 @@ Exemplo:
 
 `/api/students?pesquisa_geral=john`
 
-| Parâmetro        | Tipo     | Descrição             |
-| :--------------- | :------- | :-------------------- |
+| Parâmetro | Tipo | Descrição |
+| :**_ | :_**- | :\*\*\*-- |
 | `pesquisa_geral` | `string` | `nome, cpf ou e-mail` |
 
 #### Exemplo de Request
@@ -564,13 +558,13 @@ Response
 }
 ```
 
-| Response Status | Descrição                |
-| :-------------- | :----------------------- |
-| `200`           | Ok - Sucesso             |
-| `401`           | Não autenticado          |
-| `500`           | Erro interno no servidor |
+| Response Status | Descrição |
+| :**_-- | :_**-- |
+| `200` | Ok - Sucesso |
+| `401` | Não autenticado |
+| `500` | Erro interno no servidor |
 
----
+##
 
 #### S09 - Deleção de estudante (Soft Delete)
 
@@ -578,9 +572,9 @@ Rota privada destinada a deleção de um estudante com base no id, que necessari
 
 `DELETE /api/students/:id`
 
-| Parâmetro | Tipo  | Descrição                                                   |
-| --------- | ----- | ----------------------------------------------------------- |
-| `id`      | `int` | **Obrigatório e chave primária válida na tabela students**. |
+| Parâmetro | Tipo | Descrição |
+| **_ | _**-- | **\*-- |
+| `id` | `int` | **Obrigatório e chave primária válida na tabela students\*\*. |
 
 #### Exemplo de Request
 
@@ -601,15 +595,15 @@ Response
 Status 204 No Content
 ```
 
-| Response Status | Descrição                |
-| :-------------- | :----------------------- |
-| `204`           | Sem conteúdo (sucesso)   |
-| `401`           | Não autenticado          |
-| `403`           | Ação não permitida       |
-| `404`           | Estudante não encontrado |
-| `500`           | Erro interno no servidor |
+| Response Status | Descrição |
+| :**_-- | :_**-- |
+| `204` | Sem conteúdo (sucesso) |
+| `401` | Não autenticado |
+| `403` | Ação não permitida |
+| `404` | Estudante não encontrado |
+| `500` | Erro interno no servidor |
 
----
+##
 
 #### S10 - Atualização de estudante
 
@@ -617,19 +611,19 @@ Rota privada destinada a atualização de dados do estudante com base no id, que
 
 `PUT /api/students/:id`
 
-| Parâmetro      | Tipo     | Descrição                                                     |
-| -------------- | -------- | ------------------------------------------------------------- |
-| `name`         | `string` | **Máximo de 255 caracteres**.                                 |
-| `email`        | `string` | **Máximo de 255 caracteres, válido e único**.                 |
-| `date_birth`   | `string` | **Máximo de 255 caracteres, válido e no formato yyyy-mm-dd**. |
-| `cpf`          | `string` | **Máximo de 11 caracteres, válido e único**.                  |
-| `contact`      | `string` | **Máximo de 20 caracteres**.                                  |
-| `cep`          | `string` | **Máximo de 20 caracteres**.                                  |
-| `street`       | `string` | **Máximo de 30 caracteres**.                                  |
-| `number`       | `string` | **Máximo de 30 caracteres**.                                  |
-| `neighborhood` | `string` | **Máximo de 50 caracteres**.                                  |
-| `city`         | `string` | **Máximo de 50 caracteres**.                                  |
-| `state`        | `string` | **Máximo de 2 caracteres**.                                   |
+| Parâmetro | Tipo | Descrição |
+| **_-- | _**-- | **\*- |
+| `name` | `string` | **Máximo de 255 caracteres**. |
+| `email` | `string` | **Máximo de 255 caracteres, válido e único**. |
+| `date_birth` | `string` | **Máximo de 255 caracteres, válido e no formato yyyy-mm-dd**. |
+| `cpf` | `string` | **Máximo de 11 caracteres, válido e único**. |
+| `contact` | `string` | **Máximo de 20 caracteres**. |
+| `cep` | `string` | **Máximo de 20 caracteres**. |
+| `street` | `string` | **Máximo de 30 caracteres**. |
+| `number` | `string` | **Máximo de 30 caracteres**. |
+| `neighborhood` | `string` | **Máximo de 50 caracteres**. |
+| `city` | `string` | **Máximo de 50 caracteres**. |
+| `state` | `string` | **Máximo de 2 caracteres\*\*. |
 
 #### Exemplo de Request
 
@@ -678,16 +672,16 @@ Response
 }
 ```
 
-| Response Status | Descrição                |
-| :-------------- | :----------------------- |
-| `200`           | Atualizado com sucesso   |
-| `400`           | Dados inválidos          |
-| `401`           | Não autenticado          |
-| `403`           | Ação não permitida       |
-| `404`           | Estudante não encontrado |
-| `500`           | Erro interno no servidor |
+| Response Status | Descrição |
+| :**_-- | :_**-- |
+| `200` | Atualizado com sucesso |
+| `400` | Dados inválidos |
+| `401` | Não autenticado |
+| `403` | Ação não permitida |
+| `404` | Estudante não encontrado |
+| `500` | Erro interno no servidor |
 
----
+##
 
 #### S13 - Listagem de um estudante
 
@@ -695,9 +689,9 @@ Rota privada destinada a listagem de um estudante com base no id, que necessaria
 
 `GET /api/students/:id`
 
-| Parâmetro | Tipo  | Descrição                                                   |
-| --------- | ----- | ----------------------------------------------------------- |
-| `id`      | `int` | **Obrigatório e chave primária válida na tabela students**. |
+| Parâmetro | Tipo | Descrição |
+| **_ | _**-- | **\*-- |
+| `id` | `int` | **Obrigatório e chave primária válida na tabela students\*\*. |
 
 #### Exemplo de Request
 
@@ -737,15 +731,15 @@ Response
 }
 ```
 
-| Response Status | Descrição                |
-| :-------------- | :----------------------- |
-| `200`           | Ok - Sucesso             |
-| `401`           | Não autenticado          |
-| `403`           | Ação não permitida       |
-| `404`           | Estudante não encontrado |
-| `500`           | Erro interno no servidor |
+| Response Status | Descrição |
+| :**_-- | :_**-- |
+| `200` | Ok - Sucesso |
+| `401` | Não autenticado |
+| `403` | Ação não permitida |
+| `404` | Estudante não encontrado |
+| `500` | Erro interno no servidor |
 
----
+##
 
 ### Endpoints - Rotas Treinos
 
@@ -755,16 +749,16 @@ Rota privada destinada ao cadastro de treinos para um estudante.
 
 `POST /api/workouts`
 
-| Parâmetro      | Tipo      | Descrição                                                                                        |
-| -------------- | --------- | ------------------------------------------------------------------------------------------------ |
-| `student_id`   | `int`     | **Obrigatório**. ID do estudante, chave primária válida da tabela `students`.                    |
-| `exercise_id`  | `int`     | **Obrigatório**. ID do exercício, chave primária válida da tabela `exercises`.                   |
-| `repetitions`  | `int`     | **Obrigatório**. Número de repetições no treino.                                                 |
-| `weight`       | `decimal` | **Obrigatório**. Peso a ser utilizado no treino.                                                 |
-| `break_time`   | `int`     | **Obrigatório**. Tempo de descanso entre as séries, em segundos.                                 |
-| `day`          | `string`  | **Obrigatório**. enum contendo os valores: SEGUNDA,TERÇA, QUARTA, QUINTA, SEXTA, SÁBADO, DOMINGO |
-| `observations` | `string`  | Observações adicionais sobre o treino.                                                           |
-| `time`         | `int`     | **Obrigatório**. Tempo total do treino, em minutos.                                              |
+| Parâmetro | Tipo | Descrição |
+| **_-- | _** | **\* |
+| `student_id` | `int` | **Obrigatório**. ID do estudante, chave primária válida da tabela `students`. |
+| `exercise_id` | `int` | **Obrigatório**. ID do exercício, chave primária válida da tabela `exercises`. |
+| `repetitions` | `int` | **Obrigatório**. Número de repetições no treino. |
+| `weight` | `decimal` | **Obrigatório**. Peso a ser utilizado no treino. |
+| `break_time` | `int` | **Obrigatório**. Tempo de descanso entre as séries, em segundos. |
+| `day` | `string` | **Obrigatório**. enum contendo os valores: SEGUNDA,TERÇA, QUARTA, QUINTA, SEXTA, SÁBADO, DOMINGO |
+| `observations` | `string` | Observações adicionais sobre o treino. |
+| `time` | `int` | **Obrigatório\*\*. Tempo total do treino, em minutos. |
 
 #### Exemplo de Request
 
@@ -810,15 +804,15 @@ Response
 }
 ```
 
-| Response Status | Descrição                                                       |
-| :-------------- | :-------------------------------------------------------------- |
-| `201`           | Criado com sucesso                                              |
-| `400`           | Dados inválidos                                                 |
-| `401`           | Não autenticado                                                 |
-| `409`           | Conflito, exercício já cadastrado para o mesmo dia para o aluno |
-| `500`           | Erro interno no servidor                                        |
+| Response Status | Descrição |
+| :**_-- | :_**-- |
+| `201` | Criado com sucesso |
+| `400` | Dados inválidos |
+| `401` | Não autenticado |
+| `409` | Conflito, exercício já cadastrado para o mesmo dia para o aluno |
+| `500` | Erro interno no servidor |
 
----
+##
 
 #### S12 - Listagem de treinos do estudante
 
@@ -826,9 +820,9 @@ Rota privada destinada a listagem de treinos de um estudante com base no id.
 
 `GET /api/students/:id/workouts`
 
-| Parâmetro | Tipo  | Descrição                                                   |
-| --------- | ----- | ----------------------------------------------------------- |
-| `id`      | `int` | **Obrigatório e chave primária válida na tabela students**. |
+| Parâmetro | Tipo | Descrição |
+| **_ | _**-- | **\*-- |
+| `id` | `int` | **Obrigatório e chave primária válida na tabela students\*\*. |
 
 #### Exemplo de Request
 
@@ -881,14 +875,14 @@ Response
 }
 ```
 
-| Response Status | Descrição                |
-| :-------------- | :----------------------- |
-| `200`           | Ok - Sucesso             |
-| `401`           | Não autenticado          |
-| `404`           | Estudante não encontrado |
-| `500`           | Erro interno no servidor |
+| Response Status | Descrição |
+| :**_-- | :_**-- |
+| `200` | Ok - Sucesso |
+| `401` | Não autenticado |
+| `404` | Estudante não encontrado |
+| `500` | Erro interno no servidor |
 
----
+##
 
 #### S14 - Exportação de PDF
 
@@ -896,8 +890,8 @@ Rota privada destinada ao serviço de exportação de PDF do treino do estudante
 
 `GET /api/students/export?id_do_estudante=:id`
 
-| Parâmetro         | Tipo  | Descrição                                  |
-| :---------------- | :---- | :----------------------------------------- |
+| Parâmetro | Tipo | Descrição |
+| :**_- | :_**- | :\*\*\*-- |
 | `id_do_estudante` | `int` | `Chave primária válida da tabela students` |
 
 #### Exemplo de Request
@@ -914,14 +908,14 @@ Response
 The response is binary file.
 ```
 
-| Response Status | Descrição                |
-| :-------------- | :----------------------- |
-| `200`           | Ok - Sucesso             |
-| `401`           | Não autenticado          |
-| `404`           | Estudante não encontrado |
-| `500`           | Erro interno no servidor |
+| Response Status | Descrição |
+| :**_-- | :_**-- |
+| `200` | Ok - Sucesso |
+| `401` | Não autenticado |
+| `404` | Estudante não encontrado |
+| `500` | Erro interno no servidor |
 
----
+##
 
 ## Melhorias
 
