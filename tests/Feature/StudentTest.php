@@ -83,7 +83,7 @@ class StudentTest extends TestCase
         ]);
 
         $response->assertStatus(403)->assertJson([
-            'message' => 'Você atingiu o limite de alunos para o seu plano.',
+            'message' => 'Você atingiu o limite de estudantes para o seu plano.',
             'status' => 403,
             'errors' => [],
             'data' => [],
@@ -104,7 +104,7 @@ class StudentTest extends TestCase
         ]);
 
         $response->assertStatus(403)->assertJson([
-            'message' => 'Você atingiu o limite de alunos para o seu plano.',
+            'message' => 'Você atingiu o limite de estudantes para o seu plano.',
             'status' => 403,
             'errors' => [],
             'data' => [],
@@ -178,6 +178,22 @@ class StudentTest extends TestCase
         ]);
     }
 
+    public function test_user_can_search()
+    {
+        $user = User::factory()->create();
+        $student1 = Student::factory()->create(['user_id' => $user->id, 'name' => 'Teste 1']);
+        Student::factory()->create(['user_id' => $user->id, 'name' => 'Teste 2']);
+        Student::factory()->create(['user_id' => $user->id, 'name' => 'Teste 3']);
+
+        $response = $this->actingAs($user)->get('/api/students?pesquisa_geral=Teste 1');
+
+        $response->assertStatus(200)->assertJson([
+            'message' => 'Estudantes listados com sucesso.',
+            'status' => 200,
+            'data' => [$student1->makehidden(['user_id'])->toArray()],
+        ]);
+    }
+
     public function test_user_can_update_student_information()
     {
         $user = User::factory()->create();
@@ -189,11 +205,15 @@ class StudentTest extends TestCase
 
         $response = $this->actingAs($user)->put("/api/students/{$student->id}", $newData);
 
-        $response->assertStatus(200)->assertSeeText('Aluno atualizado com sucesso.');
-
         $updatedStudent = Student::find($student->id);
         $this->assertEquals('Updated Name', $updatedStudent->name);
         $this->assertEquals('updated@example.com', $updatedStudent->email);
+
+        $response->assertStatus(200)->assertJson([
+            'message' => 'Estudante atualizado com sucesso.',
+            'status' => 200,
+            'data' => $updatedStudent->makehidden(['user_id'])->toArray(),
+        ]);
     }
 
     public function test_user_cannot_update_student_information_with_invalid_data()

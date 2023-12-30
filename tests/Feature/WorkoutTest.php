@@ -86,7 +86,7 @@ class WorkoutTest extends TestCase
         $response = $this->actingAs($user)->post('/api/workouts', $data, headers: ['Accept' => 'application/json']);
 
         $response->assertStatus(409)->assertJson([
-            'message' => 'Já existe um treino com esse exercício cadastrado para esse aluno neste dia.',
+            'message' => 'Já existe um treino com esse exercício cadastrado para esse estudante neste dia.',
             'status' => 409,
             'errors' => [],
             'data' => [],
@@ -139,7 +139,7 @@ class WorkoutTest extends TestCase
         $response = $this->actingAs($user)->get("/api/students/999/workouts", headers: ['Accept' => 'application/json']);
 
         $response->assertStatus(404)->assertJson([
-            'message' => 'Nenhum aluno encontrado com o ID fornecido',
+            'message' => 'Nenhum estudante encontrado com o ID fornecido',
             'status' => 404,
             'errors' => [],
             'data' => [],
@@ -200,7 +200,7 @@ class WorkoutTest extends TestCase
         );
 
         $response->assertStatus(404)->assertJson([
-            'message' => 'Nenhum aluno encontrado com o ID fornecido',
+            'message' => 'Nenhum estudante encontrado com o ID fornecido',
             'status' => 404,
             'errors' => [],
             'data' => [],
