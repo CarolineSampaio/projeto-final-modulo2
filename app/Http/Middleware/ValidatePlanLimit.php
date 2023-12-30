@@ -21,7 +21,7 @@ class ValidatePlanLimit
 
         $students = Student::where('user_id', $user->id)->count();
 
-        if ($plan->limit <= $students) return $this->error('Você atingiu o limite de alunos para o seu plano.', Response::HTTP_FORBIDDEN);
+        if ($plan->limit <= $students) return $this->error('Você atingiu o limite de estudantes para o seu plano.', Response::HTTP_FORBIDDEN);
 
         return $next($request);
     }

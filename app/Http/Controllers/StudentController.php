@@ -30,12 +30,12 @@ class StudentController extends Controller
         $data['user_id'] = $user_id;
 
         $student = Student::create($data);
-        return $this->response('Estudante cadastrado com sucesso.', Response::HTTP_CREATED, $student);
+        return $this->response('Estudante cadastrado com sucesso.', Response::HTTP_CREATED, $student->makehidden(['user_id'])->toArray());
     }
 
     public function index(Request $request)
     {
-        $search = $request->get('pesquisa');
+        $search = $request->get('pesquisa_geral');
         $user_id = auth()->user()->id;
 
         $searchStudents = Student::query()
@@ -59,7 +59,10 @@ class StudentController extends Controller
     {
         $student = Student::find($id);
 
-        if (!$student) return $this->error('Nenhum aluno encontrado com o ID fornecido.', Response::HTTP_NOT_FOUND);
+        if (!$student) return $this->error('Nenhum estudante encontrado com o ID fornecido.', Response::HTTP_NOT_FOUND);
+
+        $user = auth()->user();
+        if ($student->user_id != $user->id) return $this->error('Ação não permitida.', Response::HTTP_FORBIDDEN);
 
         $studentArray = collect($student->toArray())
             ->only(['id', 'name', 'email', 'date_birth', 'cpf', 'contact'])
@@ -72,7 +75,7 @@ class StudentController extends Controller
     public function destroy($id)
     {
         $student = Student::find($id);
-        if (!$student) return $this->error('Aluno não encontrado!', Response::HTTP_NOT_FOUND);
+        if (!$student) return $this->error('Estudante não encontrado!', Response::HTTP_NOT_FOUND);
 
         $user = auth()->user();
         if ($student->user_id != $user->id) return $this->error('Ação não permitida.', Response::HTTP_FORBIDDEN);
@@ -100,12 +103,12 @@ class StudentController extends Controller
         ]);
 
         $student = Student::find($id);
-        if (!$student) return $this->error('Aluno não encontrado!', Response::HTTP_NOT_FOUND);
+        if (!$student) return $this->error('Estudante não encontrado!', Response::HTTP_NOT_FOUND);
 
         $user = auth()->user();
         if ($student->user_id != $user->id) return $this->error('Ação não permitida.', Response::HTTP_FORBIDDEN);
 
         $student->update($data);
-        return response('Aluno atualizado com sucesso.', Response::HTTP_OK);
+        return $this->response('Estudante atualizado com sucesso.', Response::HTTP_OK, $student->makehidden(['user_id']));
     }
 }

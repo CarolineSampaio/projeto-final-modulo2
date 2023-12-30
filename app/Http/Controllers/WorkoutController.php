@@ -30,7 +30,7 @@ class WorkoutController extends Controller
             ->where('exercise_id', $data['exercise_id'])
             ->exists();
 
-        if ($workoutExists) return $this->error('Já existe um treino com esse exercício cadastrado para esse aluno neste dia.', Response::HTTP_CONFLICT);
+        if ($workoutExists) return $this->error('Já existe um treino com esse exercício cadastrado para esse estudante neste dia.', Response::HTTP_CONFLICT);
 
         $workout = Workout::create($data);
         return $this->response('Treino cadastrado com sucesso.', Response::HTTP_CREATED, $workout);
@@ -39,7 +39,7 @@ class WorkoutController extends Controller
     public function show($id)
     {
         $student = Student::find($id);
-        if (!$student) return $this->error('Nenhum aluno encontrado com o ID fornecido', Response::HTTP_NOT_FOUND);
+        if (!$student) return $this->error('Nenhum estudante encontrado com o ID fornecido', Response::HTTP_NOT_FOUND);
 
         $sortedWorkouts = $this->getWorkouts($student->id);
 
@@ -55,7 +55,7 @@ class WorkoutController extends Controller
         $id = $request->get('id_do_estudante');
         $student = Student::find($id);
 
-        if (!$student) return $this->error('Nenhum aluno encontrado com o ID fornecido', Response::HTTP_NOT_FOUND);
+        if (!$student) return $this->error('Nenhum estudante encontrado com o ID fornecido', Response::HTTP_NOT_FOUND);
 
         $sortedWorkouts = $this->getWorkouts($student->id);
         $name = $student->name;
