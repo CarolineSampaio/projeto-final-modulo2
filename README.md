@@ -4,7 +4,7 @@
 
 # Introdução
 
-O GO!FIT System agora conta com um back-end dedicado e robusto, desenvolvido em Laravel 10 e banco de dados PostgreSQL. A API REST resultante é uma solução prática para a administração eficiente de instrutores de academia, visando otimizar tarefas diárias, como gerenciamento de alunos, treinos e exercícios.
+O GO!FIT System agora conta com um back-end dedicado e robusto, desenvolvido em Laravel 10 e banco de dados PostgreSQL. A API REST resultante é uma solução prática para a administração eficiente de instrutores de academia, visando otimizar tarefas diárias, como gerenciamento de estudantes, treinos e exercícios.
 
 ## Dependências do sistema
 
@@ -23,23 +23,28 @@ Essa API REST completa foi desenvolvida utilizando:
 
 ## Metodologia de Desenvolvimento
 
-O projeto foi conduzido sob a prática de [Trunk-based Development](https://www.optimizely.com/optimization-glossary/trunk-based-development), que oferece benefícios notáveis. Essa metodologia proporciona um fluxo de trabalho simples e direto, promovendo uma integração rápida e contínua com a branch principal. Essa abordagem ágil facilita iterações frequentes, detecção precoce de problemas e entregas contínuas, contribuindo para a eficiência e qualidade do desenvolvimento.
+O projeto foi conduzido sob a prática de [Trunk-based Development](https://www.optimizely.com/optimization-glossary/trunk-based-development), proporcionando vantagens significativas. Essa metodologia proporciona um fluxo de trabalho simples e direto, contribuindo para uma integração rápida e contínua com a branch principal, além de auxiliar em iterações frequentes, detecção precoce de problemas e entregas contínuas, colaborando para a eficiência e qualidade do desenvolvimento.
 
-### Organização com Kanban no Trello
+### Gestão de Tarefas com Kanban no Trello
 
-Além disso, adotou-se a a metodologia Kanban para organizar tarefas e cards no Trello, conforme ilustrado na imagem abaixo:
+A metodologia Kanban foi adotada para organizar tarefas e cards no Trello, as colunas do quadro representam diferentes estágios do fluxo de trabalho:
+
+-   **Backlog:** Tarefas planejadas, mas não iniciadas.
+-   **Doing:** Tarefas em andamento.
+-   **Blocked:** Tarefas impedidas de progredir ou aguardando algum requisito para prosseguir.
+-   **Done:** Tarefas concluídas.
 
 <p align=center>
-    <img src="public/images/trello.png" alt="Quadro Kanban no Trello" width="900">
+    <img src="public/images/trello.png" alt="Quadro Kanban no Trello exemplo" width="900">
 </p>
 
-A utilização do Kanban proporciona uma visão clara do fluxo de trabalho, permitindo uma gestão eficiente das tarefas, além colaboração eficaz, quando usado em equipes.
+A implementação do Kanban proporciona uma visão clara do fluxo de trabalho, permitindo uma gestão eficiente das tarefas e promovendo colaboração eficaz, especialmente em equipes.
 
 ## Modelagem da base de dados PostgreSQL
 
 Antes do início do projeto, foi elaborada a modelagem utilizando o [dbdiagram.io](https://dbdiagram.io/).
 
-A documentação detalhada do modelo está disponível em [dbdocs.io/caroline_08022/GOFIT_System](https://dbdocs.io/caroline_08022/GOFIT_System), e uma versão simplificada pode ser visualizada na imagem abaixo:
+A documentação detalhada do modelo está disponível em [dbdocs.io/caroline_08022/GOFIT_System](https://dbdocs.io/caroline_08022/GOFIT_System), e uma versão simplificada pode ser visualizada na imagem abaixo.
 
 <p align=center>
     <img src="public/images/model_banco.png" alt="print do banco da modelagem do banco de dados" width="900">
@@ -168,7 +173,7 @@ php artisan test --coverage
     <img src="public/images/testes.png" alt="Captura resultado esperado testes" width="900">
 </p>
 
-Captura de tela do resultado esperado dos testes unitários.
+Captura de tela do resultado esperado dos testes unitários com relatório de cobertura de código.
 
 ## Documentação da API
 
@@ -386,7 +391,7 @@ Response
 
 #### S05 - Listagem de exercícios
 
-Rota privada destinada a listagem de exercícios cadastrados pelo usuário autenticado.
+Rota privada destinada a listagem de exercícios cadastrados pelo usuário autenticado. Os exercícios são ordenados de forma ascendente com base em suas descrições, isto é, seguindo a ordem alfabética.
 
 `GET /api/exercises`
 
@@ -699,7 +704,7 @@ Response
 
 ```json
 {
-    "message": "Aluno atualizado com sucesso.",
+    "message": "Estudante atualizado com sucesso.",
     "status": 200,
     "data": {
         "id": 1,
@@ -852,13 +857,13 @@ Response
 }
 ```
 
-| Response Status | Descrição                                                       |
-| --------------- | --------------------------------------------------------------- |
-| `201`           | Criado com sucesso                                              |
-| `400`           | Dados inválidos                                                 |
-| `401`           | Não autenticado                                                 |
-| `409`           | Conflito, exercício já cadastrado para o mesmo dia para o aluno |
-| `500`           | Erro interno no servidor                                        |
+| Response Status | Descrição                                                           |
+| --------------- | ------------------------------------------------------------------- |
+| `201`           | Criado com sucesso                                                  |
+| `400`           | Dados inválidos                                                     |
+| `401`           | Não autenticado                                                     |
+| `409`           | Conflito, exercício já cadastrado para o mesmo dia para o estudante |
+| `500`           | Erro interno no servidor                                            |
 
 ##
 
@@ -987,11 +992,11 @@ The response is binary file.
 
 -   **Limitar a criação de treino apenas para estudantes que foram cadastrados pelo usuário autenticado**: Garantir que apenas o usuário autenticado e que criou aquele estudante possa criar os treinos ajuda a manter a integridade e segurança dos dados.
 
--   **Vincular o treino do estudante ao treinador que criou o treino**: Estabelecer essa relação facilita a comunicação e acompanhamento entre treinadores e estudantes, desse forma também seria possível acompanhar quantos treinos cada usuário já criou.
+-   **Vincular o treino do estudante ao treinador que criou o treino**: Estabelecer essa relação facilita a comunicação e acompanhamento entre treinadores e estudantes, dessa forma também seria possível acompanhar quantos treinos cada usuário já criou.
 
 -   **Anexar um gif, imagem ou vídeo no pdf dos treinos**: Enriquecer os materiais de treino com mídia visual pode melhorar a compreensão e execução correta dos exercícios.
 
--   **Criar uma tarefa agendada de envio de e-mail**: Ao adicionar lembretes automatizados pode aumentar a adesão dos estudantes aos treinos programados, visto que o estudante será lembrado que existe treino cadastrado para ser feito naquele dia.
+-   **Criar uma tarefa agendada de envio de e-mail**: Ao adicionar lembretes automatizados pode-se aumentar a adesão dos estudantes aos treinos programados, visto que o estudante será lembrado que existe treino cadastrado para ser feito naquele dia.
 
 -   **Implementar uma ferramenta de acompanhamento de progresso de treinos**: Oferecer uma ferramenta de acompanhamento ajuda os estudantes a visualizarem e monitorarem seu progresso ao longo do tempo.
 
