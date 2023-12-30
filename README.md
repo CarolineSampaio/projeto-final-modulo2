@@ -63,8 +63,10 @@ Para garantir a execução correta da API no ambiente local, siga as etapas:
 ### Clone o projeto
 
 ```bash
+cd "caminho/da/sua/pasta"
 git clone https://github.com/CarolineSampaio/projeto-final-modulo2
-cd projeto-final-modulo2
+cd "projeto-final-modulo2"
+code ./ #Abrirá o Vscode na raiz do projeto
 ```
 
 ### Instale as dependências do projeto
@@ -78,7 +80,7 @@ composer install
 ### Crie o banco de dados usando docker
 
 ```bash
-docker run --name academia -e POSTGRESQL_USERNAME=seu_usuario -e POSTGRESQL_PASSWORD=sua_senha -e POSTGRESQL_DATABASE=academia_api -p 5432:5432 bitnami postgresql
+docker run --name academia -e POSTGRESQL_USERNAME=seu_usuario -e POSTGRESQL_PASSWORD=sua_senha -e POSTGRESQL_DATABASE=academia_api -p 5432:5432 bitnami/postgresql
 ```
 
 Substitua `seu_usuario` e `sua_senha` pelos dados desejados para acesso ao banco de dados.
@@ -119,16 +121,16 @@ MAIL_FROM_ADDRESS="hello@example.com"
 MAIL_FROM_NAME="${APP_NAME}"
 ```
 
-### Execute a seed para popular o banco de dados
-
-```sh
-php artisan db:seed PopulatePlans
-```
-
 ### Execute o comando para criar as migrações do banco de dados
 
 ```sh
 php artisan migrate
+```
+
+### Execute a seed para popular o banco de dados
+
+```sh
+php artisan db:seed PopulatePlans
 ```
 
 ### Inicialize o servidor
@@ -155,6 +157,18 @@ docker run --name academia_test_db -e POSTGRESQL_USERNAME=seu_usuario -e POSTGRE
 
 Substitua `seu_usuario` e `sua_senha` pelos dados desejados para acesso ao banco de dados.
 
+### Atualize as credenciais no arquivo phpunit.xml
+
+Para garantir a execução adequada dos testes, é necessário manter as credenciais no arquivo phpunit.xml sempre atualizadas, alinhando-as ao ambiente de execução.
+
+```bash
+<env name="DB_DATABASE" value="academia_api_test" /> # Atualize esta linha caso o nome do DATABASE seja modificado
+<env name="DB_USERNAME" value="seu_usuario" />
+<env name="DB_PASSWORD" value="sua_senha" />
+```
+
+Substitua `seu_usuario` e `sua_senha` pelos dados inseridos no comando de criação do banco de dados no tópico anterior.
+
 ### Execute o seguinte comando para rodar os testes
 
 ```bash
@@ -174,6 +188,12 @@ php artisan test --coverage
 </p>
 
 Captura de tela do resultado esperado dos testes unitários com relatório de cobertura de código.
+
+#### Em caso de erros, utilize o seguinte comando para limpar as configurações:
+
+```bash
+php artisan config:clear
+```
 
 ## Documentação da API
 
