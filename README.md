@@ -42,7 +42,7 @@ Antes do início do projeto, foi elaborada a modelagem utilizando o [dbdiagram.i
 A documentação detalhada do modelo está disponível em [dbdocs.io/caroline_08022/GOFIT_System](https://dbdocs.io/caroline_08022/GOFIT_System), e uma versão simplificada pode ser visualizada na imagem abaixo:
 
 <p align=center>
-    <img src="public/images/model_banco.png" alt="Logo Go!Fit System" width="900">
+    <img src="public/images/model_banco.png" alt="print do banco da modelagem do banco de dados" width="900">
 </p>
 
 A imagem acima proporciona uma perspectiva geral da estrutura do banco de dados integrado ao sistema.
@@ -73,12 +73,12 @@ composer install
 ### Crie o banco de dados usando docker
 
 ```bash
-docker run --name your_postgres_container -e POSTGRESQL_USERNAME=your_username -e POSTGRESQL_PASSWORD=your_password -e POSTGRESQL_DATABASE=academia_api -p 5432:5432 bitnami/postgresql
+docker run --name academia -e POSTGRESQL_USERNAME=seu_usuario -e POSTGRESQL_PASSWORD=sua_senha -e POSTGRESQL_DATABASE=academia_api -p 5432:5432 bitnami postgresql
 ```
 
-##### A porta 5432 representa o mapeamento da porta padrão do PostgreSQL, porém, se necessário, poderá ser alterada.
+Substitua `seu_usuario` e `sua_senha` pelos dados desejados para acesso ao banco de dados.
 
-##### Alterar os campos que iniciam com "your". Exemplo: "your_username" altere para o nome de usuário desejado
+##### A porta 5432 representa o mapeamento da porta padrão do PostgreSQL, porém, se necessário, poderá ser alterada.
 
 #### Conecte com o dbeaver para visualizar os dados - opcional
 
@@ -131,6 +131,39 @@ php artisan migrate
 ```sh
 php artisan serve
 ```
+
+## Executando os Testes Unitários
+
+Para garantir a solidez e confiabilidade do sistema, foram desenvolvidos 33 testes unitários, abrangendo as diversas funcionalidades e cenários da aplicação.
+
+Certifique-se de seguir os passos abaixo para executar os testes com sucesso:
+
+### Configurando o Ambiente de Testes com Docker para o PostgreSQL
+
+Antes de executar os testes, é necessário criar um novo banco de dados exclusivo para testes. Utilize o seguinte comando Docker para criar um contêiner PostgreSQL:
+
+##### Certifique-se de que a porta 5432 esteja disponível antes de executar o comando, evitando possíveis falhas na criação do banco de dados de teste.
+
+```bash
+docker run --name academia_test_db -e POSTGRESQL_USERNAME=seu_usuario -e POSTGRESQL_PASSWORD=sua_senha -e POSTGRESQL_DATABASE=academia_api_test -p 5432:5432 bitnami/postgresql
+```
+
+Substitua `seu_usuario` e `sua_senha` pelos dados desejados para acesso ao banco de dados.
+
+### Execute o seguinte comando para rodar os testes
+
+```bash
+php artisan test
+```
+
+### Verificação do Resultado Esperado:
+
+Após a conclusão dos testes, avalie a captura de tela abaixo, que exibe o resultado esperado da execução. Esta imagem atua como uma referência visual, assegurando que os testes foram executados conforme planejado.
+
+<p align=center>
+    <img src="public/images/testes.png" alt="Captura resultado esperado testes" width="900">
+</p>
+Captura de tela do resultado esperado dos testes unitários.
 
 ## Documentação da API
 
@@ -589,7 +622,7 @@ Rota privada destinada a deleção de um estudante com base no id, que necessari
 #### Exemplo de Request
 
 ```http
-/api/students/1
+DELETE /api/students/1
 ```
 
 Headers
@@ -601,7 +634,7 @@ Auth: Bearer token
 
 Response
 
-```json
+```
 Status 204 No Content
 ```
 
@@ -706,7 +739,7 @@ Rota privada destinada a listagem de um estudante com base no id, que necessaria
 #### Exemplo de Request
 
 ```http
-/api/students/1
+GET /api/students/1
 ```
 
 Headers
@@ -837,7 +870,7 @@ Rota privada destinada a listagem de treinos de um estudante com base no id.
 #### Exemplo de Request
 
 ```http
-/api/students/1/workouts
+GET /api/students/1/workouts
 ```
 
 Headers
@@ -958,6 +991,3 @@ The response is binary file.
 -   **Implementar uma ferramenta de acompanhamento de progresso de treinos**: Oferecer uma ferramenta de acompanhamento ajuda os estudantes a visualizarem e monitorarem seu progresso ao longo do tempo.
 
 -   **Implementar planos de acesso estudantes**: Personalizar os planos de acesso oferece uma experiência mais adaptada às necessidades individuais dos estudantes, de modo que cada plano dará acesso a benefícios diferentes, como plano alimentar, acompanhamento exclusivo, avaliações individualizadas, entre outras vantagens.
-
-<!-- acesso planejamento banco de dados:
-    https://dbdocs.io/caroline_08022/GOFIT_System -->
