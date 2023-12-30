@@ -134,7 +134,7 @@ php artisan serve
 
 ## Executando os Testes Unitários
 
-Para garantir a solidez e confiabilidade do sistema, foram desenvolvidos 33 testes unitários, abrangendo as diversas funcionalidades e cenários da aplicação.
+Para garantir a solidez e confiabilidade do sistema, foram desenvolvidos 34 testes unitários, com 100% de cobertura do código.
 
 Certifique-se de seguir os passos abaixo para executar os testes com sucesso:
 
@@ -156,13 +156,18 @@ Substitua `seu_usuario` e `sua_senha` pelos dados desejados para acesso ao banco
 php artisan test
 ```
 
-### Verificação do Resultado Esperado:
+### Execute o seguinte comando para rodar os testes com relatório de cobertura de código
 
-Após a conclusão dos testes, avalie a captura de tela abaixo, que exibe o resultado esperado da execução. Esta imagem atua como uma referência visual, assegurando que os testes foram executados conforme planejado.
+Para uma análise detalhada da cobertura de código, é necessário ter o suporte do Xdebug. Certifique-se de que o ambiente esteja corretamente configurado para uma avaliação completa da cobertura dos testes.
+
+```bash
+php artisan test --coverage
+```
 
 <p align=center>
     <img src="public/images/testes.png" alt="Captura resultado esperado testes" width="900">
 </p>
+
 Captura de tela do resultado esperado dos testes unitários.
 
 ## Documentação da API
